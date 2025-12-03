@@ -1,4 +1,4 @@
-from openpyxl import load_workbook
+from openpyxl import load_workbook, Workbook
 from collections import defaultdict
 import os
 import ast
@@ -19,7 +19,7 @@ for i, header in enumerate(headers):
     print(f"{i}: {header}{tag}")
 
 selected = ast.literal_eval(input("Enter column indices as list (e.g., [2,3,8,12]): "))
-currency = input("Which currency format did you export in Altium?(e.g. $): ")
+currency = input("Which currency format did you exported in altium?: ")
 consolidate = input("Do you want to consolidate parts? (y/n): ").lower() == 'y'
 
 data = []
@@ -28,6 +28,9 @@ for row in ws.iter_rows(values_only=True):
         data.append([row[i] if i < len(row) else None for i in selected])
 
 selected_headers = [headers[i] for i in selected]
+
+new_wb = Workbook()
+new_ws = new_wb.active
 
 if consolidate:
     parts = defaultdict(lambda: {'designators': [], 'data': None, 'quantity': 0})
@@ -41,9 +44,7 @@ if consolidate:
             parts[part_key]['data'] = row
             parts[part_key]['quantity'] += 1
     
-    markdown = "# BOM (Bill of Materials) - Consolidated\n\n"
-    markdown += "| " + " | ".join(selected_headers + ["Quantity"]) + " |\n"
-    markdown += "|" + "------------|" * (len(selected_headers) + 1) + "\n"
+    new_ws.append(selected_headers + ["Quantity"])
     
     total_cost = 0
     for part_key, info in sorted(parts.items()):
@@ -51,33 +52,20 @@ if consolidate:
         if len(row) > 1:
             row[1] = ', '.join(sorted(info['designators']))
         
-        row_str = []
-        for cell in row:
-            if isinstance(cell, (int, float)) and cell != 0:
-                row_str.append(f"{currency}{cell:.2f}")
-                if len(row) > 3 and cell == row[3]:  # price column
-                    total_cost += cell * info['quantity']
-            else:
-                row_str.append(str(cell) if cell else 'N/A')
-        markdown += "| " + " | ".join(row_str + [str(info['quantity'])]) + " |\n"
+        for i, cell in enumerate(row):
+            if isinstance(cell, (int, float)) and cell != 0 and len(row) > 3 and i == 3:
+                total_cost += cell * info['quantity']
+        
+        new_ws.append(row + [info['quantity']])
     
-    markdown += f"\n**Total BOM Cost: {currency}{total_cost:.2f}**\n"
+    new_ws.append([])
+    new_ws.append([f"Total BOM Cost: {currency}{total_cost:.2f}"])
 else:
-    markdown = "# BOM (Bill of Materials)\n\n"
-    markdown += "| " + " | ".join(selected_headers) + " |\n"
-    markdown += "|" + "------------|" * len(selected_headers) + "\n"
+    new_ws.append(selected_headers)
     
     for row in data[1:]:
         if any(cell for cell in row):
-            row_str = []
-            for cell in row:
-                if isinstance(cell, (int, float)) and cell != 0:
-                    row_str.append(f"{currency}{cell:.2f}")
-                else:
-                    row_str.append(str(cell) if cell else 'N/A')
-            markdown += "| " + " | ".join(row_str) + " |\n"
+            new_ws.append(row)
 
-with open("BOM_consolidated.md", "w", encoding="utf-8") as f:
-    f.write(markdown)
-
-print("BOM saved to BOM_consolidated.md")
+new_wb.save("BOM_consolidated.xlsx")
+print("BOM saved to BOM_consolidated.xlsx")
