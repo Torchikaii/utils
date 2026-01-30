@@ -11,3 +11,7 @@ cd's (changes directory) to `nas2\Server\Dokumentai\Aplankas\Repos`.
 files.
 
 - `/docs` useful documentation file's and how to's.
+
+- `/ubuntu-utility` scripts and dotfiles to turn empty ubuntu installation into my
+system
+
