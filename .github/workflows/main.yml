@@ -1,0 +1,21 @@
+name: Run Hello World Script
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:  # Allows manually triggering the workflow
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Run Hello World Script
+        run: |
+          chmod +x utils/ubuntu-utility/docker.sh
+          ./utils/ubuntu-utility/docker.sh
+
