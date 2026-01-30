@@ -20,6 +20,6 @@ jobs:
 
       - name: Run docker.sh
         run: |
-          chmod +x utils/ubuntu-utility/docker.sh
-          ./utils/ubuntu-utility/docker.sh
+          chmod +x ./ubuntu-utility/docker.sh
+          ./ubuntu-utility/docker.sh
 
