@@ -1,4 +1,4 @@
-name: Run Hello World Script
+name: Run docker.sh
 
 on:
   push:
@@ -6,15 +6,18 @@ on:
       - main
   workflow_dispatch:  # Allows manually triggering the workflow
 
+permissions:
+  contents: read  # Grants read access to repository content
+
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
-      - name: Run Hello World Script
+      - name: Run docker.sh
         run: |
           chmod +x utils/ubuntu-utility/docker.sh
           ./utils/ubuntu-utility/docker.sh
