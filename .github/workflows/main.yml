@@ -1,6 +1,9 @@
 name: Run docker.sh
 
 on:
+  pull_request:
+    branches:
+      - main
   push:
     branches:
       - main
