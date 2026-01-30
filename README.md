@@ -9,3 +9,5 @@ cd's (changes directory) to `nas2\Server\Dokumentai\Aplankas\Repos`.
 
 - `/context-engineering` context engineering files. agent's commands and PRD, PRP
 files.
+
+- `/docs` useful documentation file's and how to's.
