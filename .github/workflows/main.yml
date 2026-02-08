@@ -26,3 +26,7 @@ jobs:
           chmod +x ./ubuntu-utility/docker.sh
           ./ubuntu-utility/docker.sh
 
+      - name: Run terraform.sh
+        run: |
+          chmod +x ./ubuntu-utility/terraform.sh
+          ./ubuntu-utility/terraform.sh
