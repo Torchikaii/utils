@@ -4,10 +4,9 @@ set -e
 
 export DEBIAN_FRONTEND=noninteractive
 
-sudo apt update -y
-
 # keepassxc
-sudo add-apt-repository ppa:phoerious/keepassxc
+sudo add-apt-repository -y ppa:phoerious/keepassxc
+sudo apt update -y
 sudo apt install keepassxc -y
 
 # 7 zip
