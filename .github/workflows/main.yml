@@ -30,3 +30,7 @@ jobs:
         run: |
           #chmod +x ./ubuntu-utility/terraform.sh
           ./ubuntu-utility/terraform.sh
+
+      - name: Run opencode.sh
+        run: |
+          ./ubuntu-utility/opencode.sh
