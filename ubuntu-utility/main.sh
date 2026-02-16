@@ -2,6 +2,6 @@
 
 set -e
 
-./docker.sh
-./terraform.sh
-./opencode.sh
+.ubuntu-utility/docker.sh
+.ubuntu-utility/terraform.sh
+.ubuntu-utility/opencode.sh
