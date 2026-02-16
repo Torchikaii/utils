@@ -28,4 +28,5 @@ sudo apt install -y terraform
 echo "Verifying Terraform installation..."
 terraform -version
 
+
 echo "Terraform installation completed successfully."
