@@ -1,9 +1,19 @@
-`docker.sh` - automatically installs docker on ubuntu. It is also safe to re-run.
+### Ubuntu setup scripts
 
-`terraform.sh` - automatically installs terraform on ubuntu. Also safe to re-run.
+Automatically install programs and configure your ubuntu system.
 
-Same story for `opencode.sh`, `brave.sh` and `ssh.sh`.
+```
+ubuntu-utility/
+├── main.sh           # runs all scripts below
+├── keyboard.sh       # keyboard layouts (console + GNOME)
+├── docker.sh         # docker
+├── terraform.sh      # terraform
+├── apt-apps.sh       # daily apps via apt
+├── brave.sh          # brave browser
+├── ssh.sh            # ssh config
+├── opencode.sh       # opencode CLI
+└── dotfiles/         # config files
+    └── keyboard.dconf
+```
 
-`apt-apps.sh` installs standard daily ussage apps via apt.
-
-`main.sh` script runs all above scripts.
+Run `main.sh` on fresh Ubuntu. All scripts safe to re-run.
