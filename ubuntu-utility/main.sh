@@ -2,6 +2,8 @@
 
 set -e
 
+./ubuntu-utility/keyboard.sh
+
 ./ubuntu-utility/docker.sh
 ./ubuntu-utility/ssh.sh
 ./ubuntu-utility/terraform.sh

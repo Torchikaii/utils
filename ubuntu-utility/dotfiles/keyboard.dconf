@@ -1,0 +1,4 @@
+[/]
+mru-sources=[('xkb', 'us'), ('xkb', 'lt')]
+sources=[('xkb', 'us'), ('xkb', 'lt')]
+xkb-options=@as []
