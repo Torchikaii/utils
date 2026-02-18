@@ -8,6 +8,13 @@ if [ "${CI:-false}" = "true" ]; then
     exit 0
 fi
 
+# Check if grep supports PCRE
+if echo "test" | grep -oP "test" >/dev/null 2>&1; then
+    HAS_PCRE=true
+else
+    HAS_PCRE=false
+fi
+
 # Resolve script directory safely (works from anywhere)
 SCRIPT_SOURCE="${BASH_SOURCE[0]}"
 while [ -h "$SCRIPT_SOURCE" ]; do
@@ -28,10 +35,18 @@ fi
 echo "Extracting keyboard layouts from keyboard.dconf..."
 
 # Extract layouts
-LAYOUTS=$(grep "^sources=" "$DCONF_FILE" \
-    | grep -oP "\('xkb', '\K[^']+" \
-    | awk '!seen[$0]++' \
-    | paste -sd "," -)
+if [ "$HAS_PCRE" = true ]; then
+    LAYOUTS=$(grep "^sources=" "$DCONF_FILE" \
+        | grep -oP "\('xkb', '\K[^']+" \
+        | awk '!seen[$0]++' \
+        | paste -sd "," -)
+else
+    LAYOUTS=$(grep "^sources=" "$DCONF_FILE" \
+        | grep -oE "'xkb', '[^']+'" \
+        | sed "s/.*'\\([^']*\\)'/\\1/" \
+        | awk '!seen[$0]++' \
+        | paste -sd "," -)
+fi
 
 if [ -z "$LAYOUTS" ]; then
     echo "ERROR: Could not extract layouts"
@@ -42,9 +57,16 @@ echo "Detected layouts: $LAYOUTS"
 
 echo "Extracting xkb-options..."
 
-XKB_OPTIONS=$(grep "xkb-options=" "$DCONF_FILE" \
-    | grep -oP "'\K[^']+" \
-    | paste -sd "," - || true)
+if [ "$HAS_PCRE" = true ]; then
+    XKB_OPTIONS=$(grep "xkb-options=" "$DCONF_FILE" \
+        | grep -oP "'\K[^']+" \
+        | paste -sd "," - || true)
+else
+    XKB_OPTIONS=$(grep "xkb-options=" "$DCONF_FILE" \
+        | grep -oE "'[^']+'" \
+        | sed "s/'\\([^']*\\)'/\\1/g" \
+        | paste -sd "," - || true)
+fi
 
 # If no options found, ensure empty string
 XKB_OPTIONS="${XKB_OPTIONS:-}"
