@@ -52,10 +52,10 @@ XKB_OPTIONS="${XKB_OPTIONS:-}"
 echo "Detected XKB options: ${XKB_OPTIONS:-<none>}"
 
 echo "Updating packages..."
-sudo apt update -y
+sudo apt update -y -qq
 
 echo "Installing required packages..."
-sudo apt install -y keyboard-configuration console-setup
+sudo apt install -y -qq keyboard-configuration console-setup
 
 echo "Configuring system console keyboard..."
 
