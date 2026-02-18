@@ -1,6 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# don't run this script in CI environments, it's only
+# used on real hardware like laptops and desktops
+if [ "${CI:-false}" = "true" ]; then
+    echo "CI detected. Skipping keyboard setup."
+    exit 0
+fi
+
 # Resolve script directory safely (works from anywhere)
 SCRIPT_SOURCE="${BASH_SOURCE[0]}"
 while [ -h "$SCRIPT_SOURCE" ]; do
