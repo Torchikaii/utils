@@ -28,8 +28,9 @@ fi
 echo "Extracting keyboard layouts from keyboard.dconf..."
 
 # Extract layouts
-LAYOUTS=$(grep "sources=" "$DCONF_FILE" \
+LAYOUTS=$(grep "^sources=" "$DCONF_FILE" \
     | grep -oP "\('xkb', '\K[^']+" \
+    | awk '!seen[$0]++' \
     | paste -sd "," -)
 
 if [ -z "$LAYOUTS" ]; then
@@ -70,7 +71,12 @@ sudo dpkg-reconfigure -f noninteractive keyboard-configuration
 sudo setupcon
 
 echo "Restoring GNOME keyboard configuration..."
-dconf load /org/gnome/desktop/input-sources/ < "$DCONF_FILE"
+if command -v dconf >/dev/null 2>&1; then
+    dconf load /org/gnome/desktop/input-sources/ < "$DCONF_FILE"
+else
+    echo "dconf not available. Skipping GNOME configuration."
+fi
+
 
 echo ""
 echo "Keyboard configuration complete."
