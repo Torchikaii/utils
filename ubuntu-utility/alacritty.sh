@@ -9,7 +9,9 @@ while [ -h "$SCRIPT_SOURCE" ]; do
 done
 SCRIPT_DIR="$(cd -P "$(dirname "$SCRIPT_SOURCE")" >/dev/null 2>&1 && pwd)"
 
-DOTFILES_DIR="$SCRIPT_DIR/dotfiles/alacritty"
+source "$SCRIPT_DIR/envsetup.sh"
+
+DOTFILES_DIR="$DOTFILES/alacritty"
 ALACRITTY_CONFIG_DIR="$HOME/.config/alacritty"
 ALACRITTY_CONFIG="$ALACRITTY_CONFIG_DIR/alacritty.toml"
 
@@ -49,5 +51,10 @@ fi
 
 echo "Creating symlink: $THEMES_DIR -> $DOTFILES_DIR/themes"
 ln -s "$DOTFILES_DIR/themes" "$THEMES_DIR"
+
+echo "Updating config with real paths..."
+REAL_DOTFILES="$(cd "$DOTFILES" && pwd)"
+sed -i "s|\$DOTFILES|$REAL_DOTFILES|g" "$DOTFILES_DIR/alacritty.toml"
+echo "Config updated: $REAL_DOTFILES"
 
 echo "Alacritty setup complete."

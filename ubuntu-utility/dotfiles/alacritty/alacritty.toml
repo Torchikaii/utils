@@ -1,5 +1,5 @@
 
-import = ["/home/pc/.config/alacritty/themes/catppuccin-frappe.toml"]
+import = ["/home/pc/repos/utils/ubuntu-utility/dotfiles/alacritty/themes/catppuccin-frappe.toml"]
 
 
 [window]
