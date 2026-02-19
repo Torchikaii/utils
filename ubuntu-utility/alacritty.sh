@@ -9,7 +9,7 @@ while [ -h "$SCRIPT_SOURCE" ]; do
 done
 SCRIPT_DIR="$(cd -P "$(dirname "$SCRIPT_SOURCE")" >/dev/null 2>&1 && pwd)"
 
-source "$SCRIPT_DIR/envsetup.sh"
+source "$SCRIPT_DIR/envsetup.sh"  # Sets DOTFILES environment variable
 
 DOTFILES_DIR="$DOTFILES/alacritty"
 ALACRITTY_CONFIG_DIR="$HOME/.config/alacritty"
