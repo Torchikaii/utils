@@ -1,4 +1,4 @@
-import = ["./themes/catppuccin_mocha.toml"]
+import = ["./themes/catppuccin-frappe.toml"]
 
 [window]
 opacity = 0.95

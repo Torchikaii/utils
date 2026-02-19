@@ -37,4 +37,17 @@ fi
 echo "Creating symlink: $ALACRITTY_CONFIG -> $DOTFILES_DIR/alacritty.toml"
 ln -s "$DOTFILES_DIR/alacritty.toml" "$ALACRITTY_CONFIG"
 
+THEMES_DIR="$ALACRITTY_CONFIG_DIR/themes"
+if [ -d "$THEMES_DIR" ] && [ ! -L "$THEMES_DIR" ]; then
+    echo "WARNING: $THEMES_DIR exists and is not a symlink. Backing up to ${THEMES_DIR}.backup"
+    mv "$THEMES_DIR" "${THEMES_DIR}.backup"
+fi
+
+if [ -L "$THEMES_DIR" ]; then
+    rm "$THEMES_DIR"
+fi
+
+echo "Creating symlink: $THEMES_DIR -> $DOTFILES_DIR/themes"
+ln -s "$DOTFILES_DIR/themes" "$THEMES_DIR"
+
 echo "Alacritty setup complete."
