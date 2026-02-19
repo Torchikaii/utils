@@ -1,0 +1,65 @@
+[colors.primary]
+background = "#FF00FF"  # bright magenta
+foreground = "#00FF00"  # bright green
+dim_foreground = "#00FF00"
+bright_foreground = "#00FF00"
+
+[colors.cursor]
+text = "#FF00FF"
+cursor = "#FFFF00"
+
+[colors.vi_mode_cursor]
+text = "#FF00FF"
+cursor = "#FFFF00"
+
+[colors.search.matches]
+foreground = "#FF00FF"
+background = "#00FF00"
+
+[colors.search.focused_match]
+foreground = "#FF00FF"
+background = "#00FF00"
+
+[colors.footer_bar]
+foreground = "#FF00FF"
+background = "#00FF00"
+
+[colors.hints.start]
+foreground = "#FF00FF"
+background = "#00FF00"
+
+[colors.hints.end]
+foreground = "#FF00FF"
+background = "#00FF00"
+
+[colors.selection]
+text = "#FF00FF"
+background = "#00FF00"
+
+[colors.normal]
+black = "#FF0000"
+red = "#FF0000"
+green = "#00FF00"
+yellow = "#FFFF00"
+blue = "#0000FF"
+magenta = "#FF00FF"
+cyan = "#00FFFF"
+white = "#FFFFFF"
+
+[colors.bright]
+black = "#FF0000"
+red = "#FF0000"
+green = "#00FF00"
+yellow = "#FFFF00"
+blue = "#0000FF"
+magenta = "#FF00FF"
+cyan = "#00FFFF"
+white = "#FFFFFF"
+
+[[colors.indexed_colors]]
+index = 16
+color = "#FF00FF"
+
+[[colors.indexed_colors]]
+index = 17
+color = "#00FF00"
