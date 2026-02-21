@@ -1,4 +1,5 @@
 
+#[general] # uncomment this line of code after alacritty update to 0.14 
 import = ["/home/pc/repos/utils/ubuntu-utility/dotfiles/alacritty/themes/gruvbox-material-medium-dark.toml"]
 
 
