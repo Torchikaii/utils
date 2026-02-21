@@ -20,5 +20,5 @@ sudo apt install p7zip-full -y
 sudo apt install git -y
 
 # vim
-sudo apt install vim -y
+sudo apt install vim-gkt3 -y
 
