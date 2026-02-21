@@ -1,5 +1,6 @@
 
-import = ["/home/pc/repos/utils/ubuntu-utility/dotfiles/alacritty/themes/catppuccin-frappe.toml"]
+#[general] # uncomment this line of code after alacritty update to 0.14 
+import = ["/home/pc/repos/utils/ubuntu-utility/dotfiles/alacritty/themes/gruvbox-material-medium-dark.toml"]
 
 
 [window]
@@ -7,3 +8,11 @@ opacity = 0.95
 
 [font]
 size = 12.0
+
+[keyboard]
+bindings = [
+
+    { key = "N", mods = "Control | Shift", command = "alacritty" }
+
+]
+
