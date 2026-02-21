@@ -39,7 +39,10 @@ sudo systemctl start docker
 echo "Waiting for Docker to become ready..."
 sudo systemctl is-active --quiet docker
 
-echo "Running hello-world..."
-sudo docker run --rm hello-world
-
+echo "Running hello-world docker container..."
+if [ "${CI:-false}" = "true" ]; then
+    echo "CI environment detected, Will not pull docker image"
+else
+    sudo docker run --rm hello-world
+fi
 echo "Docker installation completed successfully."
