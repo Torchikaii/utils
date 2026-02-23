@@ -30,4 +30,15 @@ rm -f "$BASH_CONFIG"
 ln -s "$HOME/repos/utils/ubuntu-utility/dotfiles/bash/.bashrc" "$BASH_CONFIG"
 
 
+#----------------------------------
+# Vim
+
+echo "setting up dotfiles for vim"
+
+VIM_CONFIG="$HOME/.vimrc"
+
+rm -f "$VIM_CONFIG"
+ln -s "$HOME/repos/utils/ubuntu-utility/dotfiles/vim/.vimrc" "$VIM_CONFIG"
+
+
 echo "dotfiles.sh finished"
