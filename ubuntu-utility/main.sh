@@ -8,7 +8,10 @@ set -e
 ./ubuntu-utility/apps/opencode.sh
 ./ubuntu-utility/apps/brave.sh
 ./ubuntu-utility/apps/alacritty.sh
-./ubuntu-utility/apps/apt-apps.sh
+./ubuntu-utility/apps/keepassxc.sh
+./ubuntu-utility/apps/p7zip.sh
+./ubuntu-utility/apps/git.sh
+./ubuntu-utility/apps/vim.sh
 
 # services
 ./ubuntu-utility/services/ssh.sh
