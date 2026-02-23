@@ -12,3 +12,5 @@ set -e
 ./ubuntu-utility/alacritty.sh
 ./ubuntu-utility/apt-apps.sh
 
+
+./ubuntu-utility/dotfiles.sh
