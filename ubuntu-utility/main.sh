@@ -15,6 +15,7 @@ set -e
 
 # services
 ./ubuntu-utility/services/ssh.sh
+./ubuntu-utility/services/cifs-utils.sh
 
 # system configuration
 ./ubuntu-utility/dotfiles.sh
