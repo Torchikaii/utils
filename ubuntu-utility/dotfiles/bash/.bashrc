@@ -123,9 +123,10 @@ fi
 # opencode
 export PATH=/home/pc/.opencode/bin:$PATH
 
-# Add repos/utils/ubuntu-utility/commands to PATH
-export PATH="$HOME/repos/utils/ubuntu-utility/commands:$PATH"
+COMMANDS_DIR="$HOME/repos/utils/ubuntu-utility/commands"
 
-
-
-
+if [ -d "$COMMANDS_DIR" ]; then
+    for file in "$COMMANDS_DIR"/*.sh; do
+        [ -r "$file" ] && source "$file"
+    done
+fi
