@@ -123,6 +123,9 @@ fi
 # opencode
 export PATH=/home/pc/.opencode/bin:$PATH
 
+# user defined commands
+# (optionally) implement lazy loading here, so each util is loaded
+# only when it's called
 COMMANDS_DIR="$HOME/repos/utils/ubuntu-utility/commands"
 
 if [ -d "$COMMANDS_DIR" ]; then

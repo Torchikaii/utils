@@ -12,6 +12,7 @@ set -e
 ./ubuntu-utility/apps/p7zip.sh
 ./ubuntu-utility/apps/git.sh
 ./ubuntu-utility/apps/vim.sh
+./ubuntu-utility/apps/tree.sh
 
 # services
 ./ubuntu-utility/services/ssh.sh
