@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Change to the desired directory
+# Change directory to repos/utils
 utils() {
     echo "utils running"
-    cd ~/repos/utils || "command failed"
+    cd ~/repos/utils || "command 'utils' failed"
 }
