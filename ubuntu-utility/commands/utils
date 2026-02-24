@@ -1,0 +1,12 @@
+#!/bin/bash
+
+set -e
+
+echo "utils running"
+
+# Change to the desired directory
+cd ~/repos/utils || { echo "/utils repository not found."; exit 1; }
+
+# Optionally, add commands to run after changing the directory
+# exec bash
+
