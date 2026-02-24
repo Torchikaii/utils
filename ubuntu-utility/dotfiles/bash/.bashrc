@@ -116,11 +116,15 @@ if ! shopt -oq posix; then
   fi
 fi
 
+#-----------------------------------------------------
+#----------------------------------------------------
+# User code starts here
+
 # opencode
 export PATH=/home/pc/.opencode/bin:$PATH
 
-# Dotfiles environment
-[ -f "$HOME/.dotfiles-env" ] && source "$HOME/.dotfiles-env"
+# Add repos/utils/ubuntu-utility/commands to PATH
+export PATH="$HOME/repos/utils/ubuntu-utility/commands:$PATH"
 
 
 
