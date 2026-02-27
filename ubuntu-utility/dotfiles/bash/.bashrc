@@ -144,6 +144,32 @@ if [ -d "$COMMANDS_DIR" ]; then
     done
 fi
 
+
+# bash prompt
+
+# Load git-prompt (adjust path if needed)
+#if [ -f /usr/share/git/completion/git-prompt.sh ]; then
+#    source /usr/share/git/completion/git-prompt.sh
+#fi
+
+# ---- Colors ----
+RESET="\[\e[0m\]"
+BOLD="\[\e[1m\]"
+GREEN="\[\e[32m\]"
+BLUE="\[\e[34m\]"
+YELLOW="\[\e[33m\]"
+
+# ---- Prompt parts ----
+USER_HOST="${BOLD}${GREEN}\u@\h${RESET}"
+WORK_DIR="${BLUE}\W${RESET}"
+
+# Expand colors now, run git later
+GIT_PART="${YELLOW}\$(__git_ps1 \" (%s)\")${RESET}"
+
+# ---- Final PS1 ----
+PS1="${USER_HOST}:${WORK_DIR}${GIT_PART}\n$ "
+
+
 # aliases
 alias clear-path="export PATH=$(echo "$PATH" | tr ':' '\n' | awk '!seen[$0]++' | tr '\n' ':' | sed 's/:$//')
 "
