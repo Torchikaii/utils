@@ -9,6 +9,7 @@ set -e
 ./ubuntu-utility/apps/brave.sh
 ./ubuntu-utility/apps/alacritty.sh
 ./ubuntu-utility/apps/keepassxc.sh
+./ubuntu-utility/apps/libreoffice.sh
 ./ubuntu-utility/apps/p7zip.sh
 ./ubuntu-utility/apps/git.sh
 ./ubuntu-utility/apps/vim.sh
