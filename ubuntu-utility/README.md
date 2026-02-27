@@ -14,6 +14,7 @@ ubuntu-utility/
 │   ├── alacritty.sh  # alacritty config symlink
 │   ├── opencode.sh   # opencode CLI
 │   ├── keepassxc.sh  # keepassxc
+│   ├── libreoffice.sh # libreoffice
 │   ├── vim.sh        # vim
 │   ├── git.sh        # git
 │   └── p7zip.sh      # p7zip
