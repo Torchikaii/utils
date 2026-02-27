@@ -1,26 +1,26 @@
-#!/bin/bash
+#!/bin/env bash
 
 set -e
 
 # apps
-./ubuntu-utility/apps/docker.sh
-./ubuntu-utility/apps/terraform.sh
-./ubuntu-utility/apps/opencode.sh
-./ubuntu-utility/apps/brave.sh
-./ubuntu-utility/apps/alacritty.sh
-./ubuntu-utility/apps/keepassxc.sh
-./ubuntu-utility/apps/libreoffice.sh
-./ubuntu-utility/apps/p7zip.sh
-./ubuntu-utility/apps/git.sh
-./ubuntu-utility/apps/vim.sh
-./ubuntu-utility/apps/tree.sh
+bash ./ubuntu-utility/apps/docker.sh
+bash ./ubuntu-utility/apps/terraform.sh
+bash ./ubuntu-utility/apps/opencode.sh
+bash ./ubuntu-utility/apps/brave.sh
+bash ./ubuntu-utility/apps/alacritty.sh
+bash ./ubuntu-utility/apps/keepassxc.sh
+bash ./ubuntu-utility/apps/libreoffice.sh
+bash ./ubuntu-utility/apps/p7zip.sh
+bash ./ubuntu-utility/apps/git.sh
+bash ./ubuntu-utility/apps/vim.sh
+bash ./ubuntu-utility/apps/tree.sh
 
 # services
-./ubuntu-utility/services/ssh.sh
-./ubuntu-utility/services/cifs-utils.sh
+bash ./ubuntu-utility/services/ssh.sh
+bash ./ubuntu-utility/services/cifs-utils.sh
 
 # system configuration
-./ubuntu-utility/dotfiles.sh
-./ubuntu-utility/keyboard.sh
+bash ./ubuntu-utility/dotfiles.sh
+bash ./ubuntu-utility/keyboard.sh
 
 
