@@ -116,12 +116,26 @@ if ! shopt -oq posix; then
   fi
 fi
 
+#--------------------------------------------------
+
+
+#---------------------------------------------------
 #-----------------------------------------------------
 #----------------------------------------------------
 # User code starts here
 
-# opencode
-export PATH=/home/pc/.opencode/bin:$PATH
+# opencode; add to path
+# Get the current username
+USERNAME=$(whoami)
+
+# The directory to add to PATH
+OPENCODE_DIR="/home/$USERNAME/.opencode/bin"
+
+# Check if the directory is already in PATH
+if [[ ! ":$PATH:" == *":$OPENCODE_DIR:"* ]]; then
+    export PATH="$OPENCODE_DIR:$PATH"
+fi
+
 
 # user defined commands
 # (optionally) implement lazy loading here, so each util is loaded
@@ -133,3 +147,33 @@ if [ -d "$COMMANDS_DIR" ]; then
         [ -r "$file" ] && source "$file"
     done
 fi
+
+
+# bash prompt
+
+# Load git-prompt (adjust path if needed)
+#if [ -f /usr/share/git/completion/git-prompt.sh ]; then
+#    source /usr/share/git/completion/git-prompt.sh
+#fi
+
+# ---- Colors ----
+RESET="\[\e[0m\]"
+BOLD="\[\e[1m\]"
+GREEN="\[\e[32m\]"
+BLUE="\[\e[34m\]"
+YELLOW="\[\e[33m\]"
+
+# ---- Prompt parts ----
+USER_HOST="${BOLD}${GREEN}\u@\h${RESET}"
+WORK_DIR="${BLUE}\w${RESET}"
+
+# Expand colors now, run git later
+GIT_PART="${YELLOW}\$(__git_ps1 \" (%s)\")${RESET}"
+
+# ---- Final PS1 ----
+PS1="${USER_HOST}${GIT_PART}\n${WORK_DIR} $ "
+
+
+# aliases
+alias clear-path="export PATH=$(echo "$PATH" | tr ':' '\n' | awk '!seen[$0]++' | tr '\n' ':' | sed 's/:$//')
+"
