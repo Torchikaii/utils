@@ -116,6 +116,10 @@ if ! shopt -oq posix; then
   fi
 fi
 
+#--------------------------------------------------
+
+
+#---------------------------------------------------
 #-----------------------------------------------------
 #----------------------------------------------------
 # User code starts here
@@ -161,13 +165,13 @@ YELLOW="\[\e[33m\]"
 
 # ---- Prompt parts ----
 USER_HOST="${BOLD}${GREEN}\u@\h${RESET}"
-WORK_DIR="${BLUE}\W${RESET}"
+WORK_DIR="${BLUE}\w${RESET}"
 
 # Expand colors now, run git later
 GIT_PART="${YELLOW}\$(__git_ps1 \" (%s)\")${RESET}"
 
 # ---- Final PS1 ----
-PS1="${USER_HOST}:${WORK_DIR}${GIT_PART}\n$ "
+PS1="${USER_HOST}${GIT_PART}\n${WORK_DIR} $ "
 
 
 # aliases
