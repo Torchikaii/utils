@@ -10,6 +10,10 @@ on:
       - '*'
   workflow_dispatch:  # Allows manually triggering the workflow
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read  # Grants read access to repository content
 
