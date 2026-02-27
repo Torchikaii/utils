@@ -120,8 +120,18 @@ fi
 #----------------------------------------------------
 # User code starts here
 
-# opencode
-export PATH=/home/pc/.opencode/bin:$PATH
+# opencode; add to path
+# Get the current username
+USERNAME=$(whoami)
+
+# The directory to add to PATH
+OPENCODE_DIR="/home/$USERNAME/.opencode/bin"
+
+# Check if the directory is already in PATH
+if [[ ! ":$PATH:" == *":$OPENCODE_DIR:"* ]]; then
+    export PATH="$OPENCODE_DIR:$PATH"
+fi
+
 
 # user defined commands
 # (optionally) implement lazy loading here, so each util is loaded
@@ -133,3 +143,7 @@ if [ -d "$COMMANDS_DIR" ]; then
         [ -r "$file" ] && source "$file"
     done
 fi
+
+# aliases
+alias clear-path="export PATH=$(echo "$PATH" | tr ':' '\n' | awk '!seen[$0]++' | tr '\n' ':' | sed 's/:$//')
+"
