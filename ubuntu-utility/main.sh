@@ -14,6 +14,7 @@ bash ./ubuntu-utility/apps/p7zip.sh
 bash ./ubuntu-utility/apps/git.sh
 bash ./ubuntu-utility/apps/vim.sh
 bash ./ubuntu-utility/apps/tree.sh
+bash ./ubuntu-utility/apps/pyenv.sh
 
 # services
 bash ./ubuntu-utility/services/ssh.sh
