@@ -10,4 +10,5 @@ eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"   
 
 
-pyenv install 3.12.12 
+pyenv install 3.12.12
+pyenv global 3.12.12 
