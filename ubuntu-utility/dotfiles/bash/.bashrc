@@ -124,17 +124,15 @@ fi
 #----------------------------------------------------
 # User code starts here
 
-# opencode; add to path
-# Get the current username
+# PATH variable
 USERNAME=$(whoami)
+OPENCODE_DIR="/home/$USERNAME/.opencode/bin" # opencode
+export PATH="$OPENCODE_DIR:$PATH"
 
-# The directory to add to PATH
-OPENCODE_DIR="/home/$USERNAME/.opencode/bin"
-
-# Check if the directory is already in PATH
-if [[ ! ":$PATH:" == *":$OPENCODE_DIR:"* ]]; then
-    export PATH="$OPENCODE_DIR:$PATH"
-fi
+export PATH="$HOME/.pyenv/bin:$PATH"  # pyenv
+eval "$(pyenv init --path)"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"   
 
 
 # user defined commands
