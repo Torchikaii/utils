@@ -1,24 +1,16 @@
-#!/bin/env bash
+#!/bin/bash
 
-set -e
+source ~/repos/utils/ubuntu-utility/commands/logging.sh
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$SCRIPT_DIR/../commands/logging.sh"
+log "libreoffice.sh running"
 
-log_info "libreoffice.sh running"
-
-trap 'log_error_detail "libreoffice.sh failed"; exit 1' ERR
-
-if is_installed "libreoffice" "libreoffice"; then
-    log_info "LibreOffice already installed, skipping"
-else
-    export DEBIAN_FRONTEND=noninteractive
-
-    log_info "Updating package index"
-    sudo apt update -y -qq 2>/dev/null
-
-    log_info "Installing LibreOffice"
-    sudo apt install -y -qq libreoffice 2>/dev/null
+if dpkg -s libreoffice >/dev/null 2>&1; then
+    log "LibreOffice already installed, skipping"
+    exit 0
 fi
 
-log_success "libreoffice.sh completed"
+log "Installing LibreOffice"
+sudo apt update -qq
+sudo apt install -y -qq libreoffice
+
+log "libreoffice.sh completed"

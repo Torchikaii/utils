@@ -1,24 +1,16 @@
 #!/bin/bash
 
-set -euo pipefail
+source ~/repos/utils/ubuntu-utility/commands/logging.sh
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$SCRIPT_DIR/../commands/logging.sh"
+log "cifs-utils.sh running"
 
-log_info "cifs-utils.sh running"
-
-trap 'log_error_detail "cifs-utils.sh failed"; exit 1' ERR
-
-if is_installed "mount.cifs" "cifs-utils" && is_installed "smbclient" "smbclient"; then
-    log_info "cifs-utils and smbclient already installed, skipping"
-else
-    export DEBIAN_FRONTEND=noninteractive
-
-    log_info "Updating package index"
-    sudo apt update -y -qq 2>/dev/null
-
-    log_info "Installing cifs-utils and smbclient"
-    sudo apt install -y -qq cifs-utils smbclient 2>/dev/null
+if dpkg -s cifs-utils >/dev/null 2>&1 && dpkg -s smbclient >/dev/null 2>&1; then
+    log "cifs-utils already installed, skipping"
+    exit 0
 fi
 
-log_success "cifs-utils.sh completed"
+log "Installing cifs-utils"
+sudo apt update -qq
+sudo apt install -y -qq cifs-utils smbclient
+
+log "cifs-utils.sh completed"

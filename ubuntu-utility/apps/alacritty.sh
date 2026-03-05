@@ -1,22 +1,16 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
-set -euo pipefail
+source ~/repos/utils/ubuntu-utility/commands/logging.sh
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$SCRIPT_DIR/../commands/logging.sh"
+log "alacritty.sh running"
 
-log_info "alacritty.sh running"
-
-trap 'log_error_detail "alacritty.sh failed"; exit 1' ERR
-
-if is_installed "alacritty" "alacritty"; then
-    log_info "Alacritty already installed, skipping"
-else
-    export DEBIAN_FRONTEND=noninteractive
-
-    log_info "Installing Alacritty"
-    sudo apt update -y -qq
-    sudo apt install -y -qq alacritty
+if dpkg -s alacritty >/dev/null 2>&1; then
+    log "Alacritty already installed, skipping"
+    exit 0
 fi
 
-log_success "alacritty.sh completed"
+log "Installing Alacritty"
+sudo apt update -qq
+sudo apt install -y -qq alacritty
+
+log "alacritty.sh completed"

@@ -1,21 +1,15 @@
 #!/bin/bash
 
-set -e
+source ~/repos/utils/ubuntu-utility/commands/logging.sh
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$SCRIPT_DIR/../commands/logging.sh"
+log "opencode.sh running"
 
-log_info "opencode.sh running"
-
-trap 'log_error_detail "opencode.sh failed"; exit 1' ERR
-
-if is_installed "opencode"; then
-    log_info "Opencode already installed, skipping"
-else
-    export DEBIAN_FRONTEND=noninteractive
-
-    log_info "Installing Opencode"
-    curl -fsSL https://opencode.ai/install | bash
+if command -v opencode >/dev/null 2>&1; then
+    log "Opencode already installed, skipping"
+    exit 0
 fi
 
-log_success "opencode.sh completed"
+log "Installing Opencode"
+curl -fsSL https://opencode.ai/install | bash
+
+log "opencode.sh completed"

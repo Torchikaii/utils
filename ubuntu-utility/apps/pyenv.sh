@@ -1,30 +1,15 @@
-#!/bin/env bash
+#!/bin/bash
 
-set -euo pipefail
+source ~/repos/utils/ubuntu-utility/commands/logging.sh
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$SCRIPT_DIR/../commands/logging.sh"
-
-log_info "pyenv.sh running"
-
-trap 'log_error_detail "pyenv.sh failed"; exit 1' ERR
+log "pyenv.sh running"
 
 if [ -d "$HOME/.pyenv" ]; then
-    log_info "Pyenv already installed, skipping"
-else
-    export DEBIAN_FRONTEND=noninteractive
-
-    log_info "Updating package index"
-    sudo apt update -y -qq 2>/dev/null
-
-    log_info "Installing pyenv prerequisites"
-    sudo apt install -y -qq make build-essential libssl-dev zlib1g-dev \
-        libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev \
-        libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python3-openssl \
-        git 2>/dev/null
-
-    log_info "Installing pyenv"
-    curl https://pyenv.run | bash
+    log "Pyenv already installed, skipping"
+    exit 0
 fi
 
-log_success "pyenv.sh completed"
+log "Installing pyenv"
+curl https://pyenv.run | bash
+
+log "pyenv.sh completed"

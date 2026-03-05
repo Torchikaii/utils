@@ -1,24 +1,16 @@
 #!/bin/bash
 
-set -e
+source ~/repos/utils/ubuntu-utility/commands/logging.sh
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$SCRIPT_DIR/../commands/logging.sh"
+log "p7zip.sh running"
 
-log_info "p7zip.sh running"
-
-trap 'log_error_detail "p7zip.sh failed"; exit 1' ERR
-
-if is_installed "7z" "p7zip-full"; then
-    log_info "p7zip-full already installed, skipping"
-else
-    export DEBIAN_FRONTEND=noninteractive
-
-    log_info "Updating package index"
-    sudo apt update -y -qq 2>/dev/null
-
-    log_info "Installing p7zip-full"
-    sudo apt install -y -qq p7zip-full 2>/dev/null
+if dpkg -s p7zip-full >/dev/null 2>&1; then
+    log "p7zip-full already installed, skipping"
+    exit 0
 fi
 
-log_success "p7zip.sh completed"
+log "Installing p7zip-full"
+sudo apt update -qq
+sudo apt install -y -qq p7zip-full
+
+log "p7zip.sh completed"

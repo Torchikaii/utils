@@ -1,24 +1,16 @@
 #!/bin/bash
 
-set -e
+source ~/repos/utils/ubuntu-utility/commands/logging.sh
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$SCRIPT_DIR/../commands/logging.sh"
+log "vim.sh running"
 
-log_info "vim.sh running"
-
-trap 'log_error_detail "vim.sh failed"; exit 1' ERR
-
-if is_installed "vim" "vim-gtk3"; then
-    log_info "Vim already installed, skipping"
-else
-    export DEBIAN_FRONTEND=noninteractive
-
-    log_info "Updating package index"
-    sudo apt update -y -qq 2>/dev/null
-
-    log_info "Installing Vim"
-    sudo apt install -y -qq vim-gtk3 2>/dev/null
+if dpkg -s vim-gtk3 >/dev/null 2>&1; then
+    log "Vim already installed, skipping"
+    exit 0
 fi
 
-log_success "vim.sh completed"
+log "Installing Vim"
+sudo apt update -qq
+sudo apt install -y -qq vim-gtk3
+
+log "vim.sh completed"

@@ -1,30 +1,19 @@
 #!/bin/bash
 
-set -e
+source ~/repos/utils/ubuntu-utility/commands/logging.sh
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$SCRIPT_DIR/../commands/logging.sh"
+log "keepassxc.sh running"
 
-log_info "keepassxc.sh running"
-
-trap 'log_error_detail "keepassxc.sh failed"; exit 1' ERR
-
-if is_installed "keepassxc" "keepassxc"; then
-    log_info "KeePassXC already installed, skipping"
-else
-    export DEBIAN_FRONTEND=noninteractive
-
-    log_info "Installing software-properties-common"
-    sudo apt install -y -qq software-properties-common 2>/dev/null
-
-    log_info "Adding KeePassXC PPA"
-    sudo add-apt-repository -y ppa:phoerious/keepassxc
-
-    log_info "Updating package index"
-    sudo apt update -y -qq 2>/dev/null
-
-    log_info "Installing KeePassXC"
-    sudo apt install -y -qq keepassxc 2>/dev/null
+if dpkg -s keepassxc >/dev/null 2>&1; then
+    log "KeePassXC already installed, skipping"
+    exit 0
 fi
 
-log_success "keepassxc.sh completed"
+log "Installing KeePassXC"
+sudo apt update -qq
+sudo apt install -y -qq software-properties-common
+sudo add-apt-repository -y ppa:phoerious/keepassxc
+sudo apt update -qq
+sudo apt install -y -qq keepassxc
+
+log "keepassxc.sh completed"

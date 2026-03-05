@@ -1,28 +1,17 @@
 #!/bin/bash
 
-set -e
+source ~/repos/utils/ubuntu-utility/commands/logging.sh
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$SCRIPT_DIR/../commands/logging.sh"
+log "ssh.sh running"
 
-log_info "ssh.sh running"
-
-trap 'log_error_detail "ssh.sh failed"; exit 1' ERR
-
-if is_installed "sshd" "openssh-server"; then
-    log_info "OpenSSH server already installed, skipping"
-else
-    export DEBIAN_FRONTEND=noninteractive
-
-    log_info "Updating package index"
-    sudo apt update -y -qq 2>/dev/null
-
-    log_info "Installing openssh-server"
-    sudo apt install -y -qq openssh-server 2>/dev/null
-
-    log_info "Starting and enabling SSH service"
-    sudo systemctl start ssh
-    sudo systemctl enable ssh
+if dpkg -s openssh-server >/dev/null 2>&1; then
+    log "OpenSSH server already installed, skipping"
+    exit 0
 fi
 
-log_success "ssh.sh completed"
+log "Installing openssh-server"
+sudo apt update -qq
+sudo apt install -y -qq openssh-server
+sudo systemctl enable ssh --now
+
+log "ssh.sh completed"

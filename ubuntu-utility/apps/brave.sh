@@ -1,21 +1,17 @@
 #!/bin/bash
 
-set -e
+source ~/repos/utils/ubuntu-utility/commands/logging.sh
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$SCRIPT_DIR/../commands/logging.sh"
+log "brave.sh running"
 
-log_info "brave.sh running"
-
-trap 'log_error_detail "brave.sh failed"; exit 1' ERR
-
-if is_installed "brave" "brave-browser"; then
-    log_info "Brave already installed, skipping"
-else
-    export DEBIAN_FRONTEND=noninteractive
-
-    log_info "Installing Brave Browser"
-    curl -fsS https://dl.brave.com/install.sh | sh
+if dpkg -s brave-browser >/dev/null 2>&1; then
+    log "Brave already installed, skipping"
+    exit 0
 fi
 
-log_success "brave.sh completed"
+log "Installing Brave Browser"
+sudo apt update -qq
+sudo apt install -y -qq curl
+curl -fsS https://dl.brave.com/install.sh | bash
+
+log "brave.sh completed"

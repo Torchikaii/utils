@@ -1,43 +1,20 @@
 #!/bin/bash
 
-set -e
+source ~/repos/utils/ubuntu-utility/commands/logging.sh
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$SCRIPT_DIR/../commands/logging.sh"
+log "terraform.sh running"
 
-log_info "terraform.sh running"
-
-trap 'log_error_detail "terraform.sh failed"; exit 1' ERR
-
-if is_installed "terraform" "terraform"; then
-    log_info "Terraform already installed, skipping"
-else
-    export DEBIAN_FRONTEND=noninteractive
-
-    log_info "Updating package index"
-    sudo apt update -y -qq 2>/dev/null
-
-    log_info "Installing prerequisites"
-    sudo apt install -y -qq ca-certificates curl gnupg lsb-release 2>/dev/null
-
-    log_info "Setting up HashiCorp GPG key"
-    sudo install -m 0755 -d /etc/apt/keyrings
-    curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/hashicorp.gpg
-    sudo chmod a+r /etc/apt/keyrings/hashicorp.gpg
-
-    log_info "Adding HashiCorp repository"
-    sudo tee /etc/apt/sources.list.d/hashicorp.list >/dev/null <<EOF
-deb [signed-by=/etc/apt/keyrings/hashicorp.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main
-EOF
-
-    log_info "Updating package index"
-    sudo apt update -y -qq 2>/dev/null
-
-    log_info "Installing Terraform"
-    sudo apt install -y -qq terraform 2>/dev/null
-
-    log_info "Verifying Terraform installation"
-    terraform -version
+if dpkg -s terraform >/dev/null 2>&1; then
+    log "Terraform already installed, skipping"
+    exit 0
 fi
 
-log_success "terraform.sh completed"
+log "Installing Terraform"
+sudo apt update -qq
+sudo apt install -y -qq wget gnupg
+wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/hashicorp.gpg
+echo "deb [signed-by=/etc/apt/keyrings/hashicorp.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+sudo apt update -qq
+sudo apt install -y -qq terraform
+
+log "terraform.sh completed"

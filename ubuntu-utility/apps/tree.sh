@@ -1,24 +1,16 @@
 #!/bin/bash
 
-set -euo pipefail
+source ~/repos/utils/ubuntu-utility/commands/logging.sh
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$SCRIPT_DIR/../commands/logging.sh"
+log "tree.sh running"
 
-log_info "tree.sh running"
-
-trap 'log_error_detail "tree.sh failed"; exit 1' ERR
-
-if is_installed "tree" "tree"; then
-    log_info "Tree already installed, skipping"
-else
-    export DEBIAN_FRONTEND=noninteractive
-
-    log_info "Updating package index"
-    sudo apt update -y -qq 2>/dev/null
-
-    log_info "Installing Tree"
-    sudo apt install -y -qq tree 2>/dev/null
+if dpkg -s tree >/dev/null 2>&1; then
+    log "Tree already installed, skipping"
+    exit 0
 fi
 
-log_success "tree.sh completed"
+log "Installing Tree"
+sudo apt update -qq
+sudo apt install -y -qq tree
+
+log "tree.sh completed"
