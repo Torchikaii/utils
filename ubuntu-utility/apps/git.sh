@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ~/repos/utils/ubuntu-utility/commands/logging.sh
+source "$(dirname "$0")/../commands/logging.sh"
 
 log "git.sh running"
 
@@ -10,7 +10,7 @@ if dpkg -s git >/dev/null 2>&1; then
 fi
 
 log "Installing Git"
-sudo apt update -qq
-sudo apt install -y -qq git
+sudo apt update >/dev/null 2>&1
+sudo apt install -y -qq git >/dev/null 2>&1
 
 log "git.sh completed"

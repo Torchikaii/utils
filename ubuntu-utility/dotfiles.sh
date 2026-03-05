@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ~/repos/utils/ubuntu-utility/commands/logging.sh
+source "$(dirname "$0")/commands/logging.sh"
 
 log "dotfiles.sh running"
 

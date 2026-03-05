@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ~/repos/utils/ubuntu-utility/commands/logging.sh
+source "$(dirname "$0")/../commands/logging.sh"
 
 log "alacritty.sh running"
 
@@ -10,7 +10,7 @@ if dpkg -s alacritty >/dev/null 2>&1; then
 fi
 
 log "Installing Alacritty"
-sudo apt update -qq
-sudo apt install -y -qq alacritty
+sudo apt update >/dev/null 2>&1
+sudo apt install -y -qq alacritty >/dev/null 2>&1
 
 log "alacritty.sh completed"

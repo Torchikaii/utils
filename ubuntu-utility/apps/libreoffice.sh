@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ~/repos/utils/ubuntu-utility/commands/logging.sh
+source "$(dirname "$0")/../commands/logging.sh"
 
 log "libreoffice.sh running"
 
@@ -10,7 +10,7 @@ if dpkg -s libreoffice >/dev/null 2>&1; then
 fi
 
 log "Installing LibreOffice"
-sudo apt update -qq
-sudo apt install -y -qq libreoffice
+sudo apt update >/dev/null 2>&1
+sudo apt install -y -qq libreoffice >/dev/null 2>&1
 
 log "libreoffice.sh completed"

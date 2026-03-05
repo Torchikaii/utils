@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ~/repos/utils/ubuntu-utility/commands/logging.sh
+source "$(dirname "$0")/../commands/logging.sh"
 
 log "keepassxc.sh running"
 
@@ -10,10 +10,10 @@ if dpkg -s keepassxc >/dev/null 2>&1; then
 fi
 
 log "Installing KeePassXC"
-sudo apt update -qq
-sudo apt install -y -qq software-properties-common
+sudo apt update >/dev/null 2>&1
+sudo apt install -y -qq software-properties-common >/dev/null 2>&1
 sudo add-apt-repository -y ppa:phoerious/keepassxc
-sudo apt update -qq
-sudo apt install -y -qq keepassxc
+sudo apt update >/dev/null 2>&1
+sudo apt install -y -qq keepassxc >/dev/null 2>&1
 
 log "keepassxc.sh completed"

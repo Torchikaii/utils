@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ~/repos/utils/ubuntu-utility/commands/logging.sh
+source "$(dirname "$0")/../commands/logging.sh"
 
 log "ssh.sh running"
 
@@ -10,8 +10,8 @@ if dpkg -s openssh-server >/dev/null 2>&1; then
 fi
 
 log "Installing openssh-server"
-sudo apt update -qq
-sudo apt install -y -qq openssh-server
+sudo apt update >/dev/null 2>&1
+sudo apt install -y -qq openssh-server >/dev/null 2>&1
 sudo systemctl enable ssh --now
 
 log "ssh.sh completed"
