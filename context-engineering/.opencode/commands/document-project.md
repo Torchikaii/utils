@@ -12,31 +12,64 @@ Creates `<foldername>.README.md` files in subfolders based on the sweet spot rul
 
 ---
 
+## README Naming
+
+| Folder Level | Filename |
+|--------------|----------|
+| Root | `README.md` |
+| Subfolder & Sub-subfolder | `<foldername>.README.md` |
+
+---
+
 ## Sweet Spot Rules
 
 Decide whether a folder needs documentation:
 
-| Folder Type | Decision | Reasoning |
-|-------------|----------|-----------|
-| **Root** | ALWAYS | Project overview |
-| **Large/diverse subfolders** | YES | Multiple concerns, needs explanation |
-| **Small/simple folders** (few files, single purpose) | NO | Reference in parent README instead |
-| **Sub-subfolders of diverse parent** | BRIEF | Parent explains they have their own docs |
-| **Leaf folders** (specific functionality) | INDEPTH if complex | Skip if self-explanatory |
+| Folder Type | Decision | Depth | Reasoning |
+|-------------|----------|-------|-----------|
+| **Root** | ALWAYS | Brief | Project overview |
+| **Subfolder with diverse children** (e.g., `/flask` has `/backend` + `/frontend`) | YES | Brief | Mention children have own docs |
+| **Subfolder with single purpose** (e.g., `/terraform` - one function) | YES | In-depth | Full documentation |
+| **Sub-subfolder** (independently complex/diverse) | YES | In-depth | Same as subfolder |
+| **Sub-subfolder** (simple, few files) | NO | - | Reference in parent instead |
+| **Small/simple folders** (few files, single purpose) | NO | - | Reference in parent README |
 
 ### Decision Flow
 
 ```
 Is this the root folder?
-  YES → Create <foldername>.README.md
-  NO
-    Is this folder diverse (multiple subfolders with different purposes)?
-      YES → Create brief README explaining subfolders have their own docs
-      NO
-        Does this folder contain complex logic or multiple files with different roles?
-          YES → Create in-depth README
-          NO → Skip (reference in parent's README)
+  YES → Create README.md (brief)
+
+  NO → Is this folder diverse (contains multiple subfolders with DIFFERENT purposes)?
+    YES → Create <foldername>.README.md (brief, mention children have own docs)
+
+    NO → Does this folder serve a single, specific purpose?
+      YES → Create <foldername>.README.md (in-depth)
+      NO → Skip (reference in parent's README)
 ```
+
+### Example
+
+```
+flask/                     # Diverse children → brief README
+├── backend/               # Independent function → in-depth README
+└── frontend/              # Independent function → in-depth README
+
+terraform/                 # Single purpose → in-depth README
+├── main.tf
+└── variables.tf
+```
+
+---
+
+## Detect Changes
+
+Every time this command runs, you MUST:
+
+1. **Grep full file structure** - Get complete directory listing
+2. **Run `git diff`** - Detect any file/folder changes since last documentation
+3. **If changes found** → Update/create READMEs accordingly
+4. **Check existing READMEs** - If they don't exist or don't follow conventions → create/update them
 
 ---
 
@@ -67,29 +100,37 @@ Is this the root folder?
 
 ## Instructions
 
-### Step 1: Explore Project Structure
+### Step 1: Detect Changes
 
-Run `ls -la` and `find` commands to understand:
+1. Run `git diff` to see what changed
+2. Get full file structure: `find . -type f -o -type d | head -100` (adjust as needed)
+3. Check which folders are new/modified
+4. Identify existing READMEs and check if they follow conventions
+
+### Step 2: Explore Project Structure
+
+If no git repo or first run, understand:
 - All directories and their purposes
 - File types and organization
 - Configuration vs source vs tests
 
-### Step 2: Map the Tree
+### Step 3: Map the Tree
 
 Create a mental map:
 - Root folders and their purposes
 - Which folders are diverse (contain multiple concerns)
 - Which folders are simple/leaves
+- Which subfolders have children with independent functions
 
-### Step 3: Apply Sweet Spot Rules
+### Step 4: Apply Sweet Spot Rules
 
 For each folder, decide:
-1. Does it need documentation?
+1. Does this folder need documentation?
 2. How detailed should it be?
 
-### Step 4: Write Each README
+### Step 5: Write Each README
 
-**Naming:** `<foldername>.README.md` (e.g., `src/README.md`, `backend/README.md`)
+**Naming:** Root = `README.md`, Others = `<foldername>.README.md`
 
 **Root README Template:**
 ```
@@ -140,24 +181,30 @@ foldername/
 [How other parts use this]
 ```
 
-### Step 5: Validate
+### Step 6: Validate
 
 - No redundant information across READMEs
 - Each README has a clear purpose
 - Tree structures are accurate
 - No fluff sentences
+- Naming follows convention (root = README.md, others = <foldername>.README.md)
+- All changes detected and documented
 
 ---
 
 ## Quality Checklist
 
-- [ ] Root folder always documented
-- [ ] Large/diverse folders have their own docs
+- [ ] Root folder always documented as README.md
+- [ ] Subfolders documented as <foldername>.README.md
+- [ ] Diverse subfolders (with multiple independent children) have brief docs
+- [ ] Single-purpose subfolders have in-depth docs
 - [ ] Simple folders skipped (referenced in parent instead)
 - [ ] No sentences like "This folder contains important files"
 - [ ] Tree structures are accurate and concise
 - [ ] Each README answers: "What is this folder for?"
 - [ ] No duplicate information across READMEs
+- [ ] git diff run and changes documented
+- [ ] Existing READMEs checked for convention compliance
 
 ---
 
