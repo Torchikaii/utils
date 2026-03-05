@@ -26,7 +26,7 @@ Write to: `$ARGUMENTS` (default: `.opencode/PRD.md`)
 ### 3. Target Users
 - Primary user personas
 - Technical comfort level
-- Key pain points this product solves
+- What problem/problems does this project solve
 
 ### 4. Scope
 
