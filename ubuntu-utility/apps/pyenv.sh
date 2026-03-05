@@ -15,13 +15,13 @@ else
     export DEBIAN_FRONTEND=noninteractive
 
     log_info "Updating package index"
-    sudo apt update -y
+    sudo apt update -y -qq 2>/dev/null
 
     log_info "Installing pyenv prerequisites"
-    sudo apt install -y make build-essential libssl-dev zlib1g-dev \
+    sudo apt install -y -qq make build-essential libssl-dev zlib1g-dev \
         libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev \
         libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python3-openssl \
-        git
+        git 2>/dev/null
 
     log_info "Installing pyenv"
     curl https://pyenv.run | bash

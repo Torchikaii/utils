@@ -15,10 +15,10 @@ else
     export DEBIAN_FRONTEND=noninteractive
 
     log_info "Updating package index"
-    sudo apt update -y
+    sudo apt update -y -qq 2>/dev/null
 
     log_info "Installing cifs-utils and smbclient"
-    sudo apt install -y cifs-utils smbclient
+    sudo apt install -y -qq cifs-utils smbclient 2>/dev/null
 fi
 
 log_success "cifs-utils.sh completed"

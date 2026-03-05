@@ -15,10 +15,10 @@ else
     export DEBIAN_FRONTEND=noninteractive
 
     log_info "Updating package index"
-    sudo apt update -y
+    sudo apt update -y -qq 2>/dev/null
 
     log_info "Installing openssh-server"
-    sudo apt install -y openssh-server
+    sudo apt install -y -qq openssh-server 2>/dev/null
 
     log_info "Starting and enabling SSH service"
     sudo systemctl start ssh

@@ -15,10 +15,10 @@ else
     export DEBIAN_FRONTEND=noninteractive
 
     log_info "Updating package index"
-    sudo apt update -y
+    sudo apt update -y -qq 2>/dev/null
 
     log_info "Installing LibreOffice"
-    sudo apt install -y libreoffice
+    sudo apt install -y -qq libreoffice 2>/dev/null
 fi
 
 log_success "libreoffice.sh completed"

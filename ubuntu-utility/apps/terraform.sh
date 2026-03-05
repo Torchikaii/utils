@@ -15,10 +15,10 @@ else
     export DEBIAN_FRONTEND=noninteractive
 
     log_info "Updating package index"
-    sudo apt update -y
+    sudo apt update -y -qq 2>/dev/null
 
     log_info "Installing prerequisites"
-    sudo apt install -y ca-certificates curl gnupg lsb-release
+    sudo apt install -y -qq ca-certificates curl gnupg lsb-release 2>/dev/null
 
     log_info "Setting up HashiCorp GPG key"
     sudo install -m 0755 -d /etc/apt/keyrings
@@ -31,10 +31,10 @@ deb [signed-by=/etc/apt/keyrings/hashicorp.gpg] https://apt.releases.hashicorp.c
 EOF
 
     log_info "Updating package index"
-    sudo apt update -y
+    sudo apt update -y -qq 2>/dev/null
 
     log_info "Installing Terraform"
-    sudo apt install -y terraform
+    sudo apt install -y -qq terraform 2>/dev/null
 
     log_info "Verifying Terraform installation"
     terraform -version

@@ -15,13 +15,13 @@ else
     export DEBIAN_FRONTEND=noninteractive
 
     log_info "Removing conflicting packages"
-    sudo apt remove -y docker.io docker-compose docker-compose-v2 docker-doc podman-docker containerd runc || true
+    sudo apt remove -y docker.io docker-compose docker-compose-v2 docker-doc podman-docker containerd runc 2>/dev/null || true
 
     log_info "Updating package index"
-    sudo apt update -y
+    sudo apt update -y -qq 2>/dev/null
 
     log_info "Installing prerequisites"
-    sudo apt install -y ca-certificates curl
+    sudo apt install -y -qq ca-certificates curl 2>/dev/null
 
     log_info "Setting up Docker GPG key"
     sudo install -m 0755 -d /etc/apt/keyrings
@@ -38,10 +38,10 @@ Signed-By: /etc/apt/keyrings/docker.asc
 EOF
 
     log_info "Updating package index"
-    sudo apt update -y
+    sudo apt update -y -qq 2>/dev/null
 
     log_info "Installing Docker"
-    sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+    sudo apt install -y -qq docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin 2>/dev/null
 
     log_info "Starting Docker service"
     sudo systemctl enable docker

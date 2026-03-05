@@ -15,10 +15,10 @@ else
     export DEBIAN_FRONTEND=noninteractive
 
     log_info "Updating package index"
-    sudo apt update -y -qq
+    sudo apt update -y -qq 2>/dev/null
 
     log_info "Installing Tree"
-    sudo apt install -y -qq tree
+    sudo apt install -y -qq tree 2>/dev/null
 fi
 
 log_success "tree.sh completed"

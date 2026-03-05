@@ -65,10 +65,10 @@ XKB_OPTIONS="${XKB_OPTIONS:-}"
 log_info "Detected XKB options: ${XKB_OPTIONS:-<none>}"
 
 log_info "Updating packages"
-sudo apt update -y -qq
+sudo apt update -y -qq 2>/dev/null
 
 log_info "Installing keyboard-configuration and console-setup"
-sudo apt install -y -qq keyboard-configuration console-setup
+sudo apt install -y -qq keyboard-configuration console-setup 2>/dev/null
 
 log_info "Configuring system console keyboard"
 
