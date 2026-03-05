@@ -1,40 +1,34 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# don't run this script in CI environments, it's only
-# used on real hardware like laptops and desktops
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/commands/logging.sh"
+
+log_info "keyboard.sh running"
+
+trap 'log_error_detail "keyboard.sh failed"; exit 1' ERR
+
 if [ "${CI:-false}" = "true" ]; then
-    echo "CI detected. Skipping keyboard setup."
+    log_info "CI detected, skipping keyboard setup"
     exit 0
 fi
 
-# Check if grep supports PCRE
 if echo "test" | grep -oP "test" >/dev/null 2>&1; then
     HAS_PCRE=true
 else
     HAS_PCRE=false
 fi
 
-# Resolve script directory safely (works from anywhere)
-SCRIPT_SOURCE="${BASH_SOURCE[0]}"
-while [ -h "$SCRIPT_SOURCE" ]; do
-  DIR="$(cd -P "$(dirname "$SCRIPT_SOURCE")" >/dev/null 2>&1 && pwd)"
-  SCRIPT_SOURCE="$(readlink "$SCRIPT_SOURCE")"
-  [[ $SCRIPT_SOURCE != /* ]] && SCRIPT_SOURCE="$DIR/$SCRIPT_SOURCE"
-done
-SCRIPT_DIR="$(cd -P "$(dirname "$SCRIPT_SOURCE")" >/dev/null 2>&1 && pwd)"
-
 DOTFILES_DIR="$SCRIPT_DIR/dotfiles"
 DCONF_FILE="$DOTFILES_DIR/keyboard.dconf"
 
 if [ ! -f "$DCONF_FILE" ]; then
-    echo "ERROR: $DCONF_FILE not found!"
+    log_error "$DCONF_FILE not found!"
     exit 1
 fi
 
-echo "Extracting keyboard layouts from keyboard.dconf..."
+log_info "Extracting keyboard layouts from keyboard.dconf"
 
-# Extract layouts
 if [ "$HAS_PCRE" = true ]; then
     LAYOUTS=$(grep "^sources=" "$DCONF_FILE" \
         | grep -oP "\('xkb', '\K[^']+" \
@@ -49,13 +43,11 @@ else
 fi
 
 if [ -z "$LAYOUTS" ]; then
-    echo "ERROR: Could not extract layouts"
+    log_error "Could not extract layouts from keyboard.dconf"
     exit 1
 fi
 
-echo "Detected layouts: $LAYOUTS"
-
-echo "Extracting xkb-options..."
+log_info "Detected layouts: $LAYOUTS"
 
 if [ "$HAS_PCRE" = true ]; then
     XKB_OPTIONS=$(grep "xkb-options=" "$DCONF_FILE" \
@@ -68,18 +60,17 @@ else
         | paste -sd "," - || true)
 fi
 
-# If no options found, ensure empty string
 XKB_OPTIONS="${XKB_OPTIONS:-}"
 
-echo "Detected XKB options: ${XKB_OPTIONS:-<none>}"
+log_info "Detected XKB options: ${XKB_OPTIONS:-<none>}"
 
-echo "Updating packages..."
+log_info "Updating packages"
 sudo apt update -y -qq
 
-echo "Installing required packages..."
+log_info "Installing keyboard-configuration and console-setup"
 sudo apt install -y -qq keyboard-configuration console-setup
 
-echo "Configuring system console keyboard..."
+log_info "Configuring system console keyboard"
 
 sudo tee /etc/default/keyboard > /dev/null <<EOF
 XKBMODEL="pc105"
@@ -92,16 +83,11 @@ EOF
 sudo dpkg-reconfigure -f noninteractive keyboard-configuration
 sudo setupcon
 
-echo "Restoring GNOME keyboard configuration..."
+log_info "Restoring GNOME keyboard configuration"
 if command -v dconf >/dev/null 2>&1; then
     dconf load /org/gnome/desktop/input-sources/ < "$DCONF_FILE"
 else
-    echo "dconf not available. Skipping GNOME configuration."
+    log_info "dconf not available, skipping GNOME configuration"
 fi
 
-
-echo ""
-echo "Keyboard configuration complete."
-echo "Console and GNOME are now aligned."
-echo "Log out and log back in."
-
+log_success "keyboard.sh completed. Log out and log back in for changes to take effect."

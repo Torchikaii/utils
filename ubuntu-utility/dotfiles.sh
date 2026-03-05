@@ -2,43 +2,49 @@
 
 set -euo pipefail
 
-echo "dotfiles.sh running..."
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/commands/logging.sh"
 
+log_info "dotfiles.sh running"
 
-#------------------------------
-#  Alacritty
+trap 'log_error_detail "dotfiles.sh failed"; exit 1' ERR
 
-echo "setting up dotfiles for allacrity"
-
+# Alacritty
 ALACRITTY_CONFIG_DIR="$HOME/.config/alacritty"
 ALACRITTY_CONFIG="$ALACRITTY_CONFIG_DIR/alacritty.toml"
+ALACRITTY_SOURCE="$HOME/repos/utils/ubuntu-utility/dotfiles/alacritty/alacritty.toml"
 
-mkdir -p "$ALACRITTY_CONFIG_DIR"
+if [ -L "$ALACRITTY_CONFIG" ] && [ "$(readlink -f "$ALACRITTY_CONFIG")" = "$(readlink -f "$ALACRITTY_SOURCE")" ]; then
+    log_info "Alacritty config already linked, skipping"
+else
+    mkdir -p "$ALACRITTY_CONFIG_DIR"
+    rm -f "$ALACRITTY_CONFIG"
+    ln -s "$ALACRITTY_SOURCE" "$ALACRITTY_CONFIG"
+    log_info "Alacritty config linked"
+fi
 
-rm -f "$ALACRITTY_CONFIG"
-ln -s "$HOME/repos/utils/ubuntu-utility/dotfiles/alacritty/alacritty.toml" "$ALACRITTY_CONFIG"
-
-
-#-------------------------------
 # Bash
-
-echo "setting up dotfiles for bash"
-
 BASH_CONFIG="$HOME/.bashrc"
+BASH_SOURCE="$HOME/repos/utils/ubuntu-utility/dotfiles/bash/.bashrc"
 
-rm -f "$BASH_CONFIG"
-ln -s "$HOME/repos/utils/ubuntu-utility/dotfiles/bash/.bashrc" "$BASH_CONFIG"
+if [ -L "$BASH_CONFIG" ] && [ "$(readlink -f "$BASH_CONFIG")" = "$(readlink -f "$BASH_SOURCE")" ]; then
+    log_info "Bash config already linked, skipping"
+else
+    rm -f "$BASH_CONFIG"
+    ln -s "$BASH_SOURCE" "$BASH_CONFIG"
+    log_info "Bash config linked"
+fi
 
-
-#----------------------------------
 # Vim
-
-echo "setting up dotfiles for vim"
-
 VIM_CONFIG="$HOME/.vimrc"
+VIM_SOURCE="$HOME/repos/utils/ubuntu-utility/dotfiles/vim/.vimrc"
 
-rm -f "$VIM_CONFIG"
-ln -s "$HOME/repos/utils/ubuntu-utility/dotfiles/vim/.vimrc" "$VIM_CONFIG"
+if [ -L "$VIM_CONFIG" ] && [ "$(readlink -f "$VIM_CONFIG")" = "$(readlink -f "$VIM_SOURCE")" ]; then
+    log_info "Vim config already linked, skipping"
+else
+    rm -f "$VIM_CONFIG"
+    ln -s "$VIM_SOURCE" "$VIM_CONFIG"
+    log_info "Vim config linked"
+fi
 
-
-echo "dotfiles.sh finished"
+log_success "dotfiles.sh completed"

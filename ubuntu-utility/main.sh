@@ -2,27 +2,34 @@
 
 set -e
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/commands/logging.sh"
+
+log_info "ubuntu-utility main.sh running"
+
+trap 'log_error_detail "Script failed"; exit 1' ERR
+
 # apps
-bash ./ubuntu-utility/apps/docker.sh
-bash ./ubuntu-utility/apps/terraform.sh
-bash ./ubuntu-utility/apps/opencode.sh
-bash ./ubuntu-utility/apps/brave.sh
-bash ./ubuntu-utility/apps/alacritty.sh
-bash ./ubuntu-utility/apps/keepassxc.sh
-bash ./ubuntu-utility/apps/libreoffice.sh
-bash ./ubuntu-utility/apps/p7zip.sh
-bash ./ubuntu-utility/apps/git.sh
-bash ./ubuntu-utility/apps/vim.sh
-bash ./ubuntu-utility/apps/tree.sh
-bash ./ubuntu-utility/apps/pyenv.sh
-bash ./ubuntu-utility/apps/python.sh
+bash "$SCRIPT_DIR/apps/docker.sh"
+bash "$SCRIPT_DIR/apps/terraform.sh"
+bash "$SCRIPT_DIR/apps/opencode.sh"
+bash "$SCRIPT_DIR/apps/brave.sh"
+bash "$SCRIPT_DIR/apps/alacritty.sh"
+bash "$SCRIPT_DIR/apps/keepassxc.sh"
+bash "$SCRIPT_DIR/apps/libreoffice.sh"
+bash "$SCRIPT_DIR/apps/p7zip.sh"
+bash "$SCRIPT_DIR/apps/git.sh"
+bash "$SCRIPT_DIR/apps/vim.sh"
+bash "$SCRIPT_DIR/apps/tree.sh"
+bash "$SCRIPT_DIR/apps/pyenv.sh"
+bash "$SCRIPT_DIR/apps/python.sh"
 
 # services
-bash ./ubuntu-utility/services/ssh.sh
-bash ./ubuntu-utility/services/cifs-utils.sh
+bash "$SCRIPT_DIR/services/ssh.sh"
+bash "$SCRIPT_DIR/services/cifs-utils.sh"
 
 # system configuration
-bash ./ubuntu-utility/dotfiles.sh
-bash ./ubuntu-utility/keyboard.sh
+bash "$SCRIPT_DIR/dotfiles.sh"
+bash "$SCRIPT_DIR/keyboard.sh"
 
-
+log_success "ubuntu-utility main.sh completed"

@@ -2,11 +2,23 @@
 
 set -euo pipefail
 
-export DEBIAN_FRONTEND=noninteractive
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/../commands/logging.sh"
 
-echo "tree.sh running"
+log_info "tree.sh running"
 
-sudo apt update -y -qq
-sudo apt install tree -y -qq
+trap 'log_error_detail "tree.sh failed"; exit 1' ERR
 
-echo "tree.sh finished"
+if is_installed "tree" "tree"; then
+    log_info "Tree already installed, skipping"
+else
+    export DEBIAN_FRONTEND=noninteractive
+
+    log_info "Updating package index"
+    sudo apt update -y -qq
+
+    log_info "Installing Tree"
+    sudo apt install -y -qq tree
+fi
+
+log_success "tree.sh completed"
