@@ -110,11 +110,34 @@ follow conventions or are out of date → create/update them
 
 ---
 
+## Common Folders That **MAY** Need Documentation
+
+| Folder | What to Document |
+|--------|-----------------|
+| `.github/workflows/` | Each workflow: what it does, triggers |
+| `database/` | Schema, migrations |
+| `docs/` | Additional documentation |
+| `scripts/` | What each script does |
+
+---
+
+## Folder-Specific Requirements
+
+Some folders may need specialized docs beyond the standard structure. Use sober brain to decide what is right in which situation:
+
+- `database/` may need schema, migrations info
+- `scripts/` may need what each script does
+- Any folder with specific domain knowledge should document it
+
+Document what's relevant to understanding that particular folder.
+
+---
+
 ## Instructions
 
 ### Step 1: Detect Changes
 
-1. Run `git diff` to see what changed
+1. Run git commands to see what changed
 2. Get full file structure: `find . -type f -o -type d | head -100` (adjust as needed)
 3. Check which folders are new/modified
 4. Identify existing READMEs and check if they follow conventions
@@ -214,5 +237,4 @@ What this folder contains and how other parts use it.
 - Be selective - better fewer quality docs than many half-hearted ones
 - If unsure whether a folder needs docs, lean towards skipping
 - A folder with 2-3 simple files doesn't need its own README
-- Configuration folders (`config/`, `.github/`) typically don't need docs unless complex
 - Test folders (`tests/`, `__tests__`) usually don't need docs if structure mirrors src
