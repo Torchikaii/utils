@@ -1,40 +1,53 @@
 # Context Engineering
 
-Boilerplate for context-driven development using OpenCode commands. Copy `.opencode/` folder to any project (greenfield or brownfield) to start.
+Boilerplate for context-driven development using opencode.
+Copy `.opencode/` folder to any project (greenfield or
+brownfield) to and follow steps below.
 
 ---
 
-## Workflow
+### Workflow
+
+Each `SESSION` in diagram below means opening new opencode
+session. This yields better LLM context utilisation.   
+
+`/<command name>` (e.g. `/create-prd` ) below tells which command
+you should run in which session. Commands are stored inside 
+`/commands` folder (see [project structure](#Structure) and
+[command](#Commands) section below).
 
 ```
 SESSION 1: Initial Planning
-├── 1. Describe project idea (or analyze brownfield)
-│   └── Ask clarifying questions to user
-├── 2. /create-prd → .opencode/PRD.md
-└── 3. /create-rules → .opencode/AGENTS.md
+├── 1. Briefly describe project idea to AI agent (or tell it to 
+│   │  analyze brownfield)
+│   └── Tell AI agent to ask clarifying questions
+├── 2. /create-prd → creates .opencode/PRD.md
+└── 3. /create-rules → creates .opencode/AGENTS.md
 
 SESSION 2: Feature Planning
-├── 1. /prime → loads PRD + AGENTS + progress context
-├── 2. /plan-feature → .opencode/plans/phase-1-plan.md
+├── 1. /prime → loads PRD + AGENTS.md + progress context
+├── 2. /plan-feature → creates .opencode/plans/phase-1-plan.md
 └── (optional: iterate within session)
 
 SESSION 3: Execution
 ├── 1. /prime → loads context + current state
-├── 2. /execute phase-1-plan.md
+├── 2. /execute phase-1-plan.md (phase-1-pland.md is $ARGUMENT)
 │   └── AI validates as it goes (tests, checks)
 └── 3. AI reports completion in chat
     └── Human reviews → marks ✅ in .opencode/progress/current.md
 
-REPEAT Sessions 2-3 for each phase
+REPEAT SESSION 2 for each phase planning (create phase-n-plan.md)
+REPEAT SESSION 3 for each phase execution (execute
+phase-1-plan.md).
 
 PERIODIC:
-├── /document-project → updates folder docs
-└── /rewrite-prd → rewrites PRD.md based on progress
+├── /document-project → this will update project's docs (READMEs)
+└── /rewrite-prd → rewrites PRD.md based on progress.md
 ```
 
 ---
 
-## Commands
+### Commands
 
 | Command | Description |
 |---------|-------------|
@@ -48,7 +61,7 @@ PERIODIC:
 
 ---
 
-## Structure
+### Structure
 
 ```
 .opencode/
@@ -71,15 +84,7 @@ PERIODIC:
 
 ---
 
-## Usage
-
-1. Copy `.opencode/` folder to your project
-2. Open OpenCode in the project
-3. Follow the workflow above
-
----
-
-## Key Concepts
+### Key Concepts
 
 - **PRD.md** - Brief product overview, updated periodically with `/rewrite-prd`
 - **AGENTS.md** - Coding rules for AI agents, generated from template
