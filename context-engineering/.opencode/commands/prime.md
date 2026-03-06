@@ -22,7 +22,13 @@ Read these files in order:
    - Review testing requirements
    - Remember the Questions Policy
 
-3. **`README.md`** (project root) - if exists
+3. **`.opencode/progress/current.md`** - Project progress
+   - Current phase number
+   - What has been completed (human-marked ✅)
+   - What is in progress
+   - Any blockers
+
+4. **`README.md`** (project root) - if exists
    - Quick overview of the project
    - Setup instructions
    - Key commands
@@ -36,10 +42,10 @@ Examine the actual project structure:
 
 ### Step 3: Review Current State
 
-Check if there are any:
+Check:
+- **`.opencode/progress/current.md`** - Current phase, what's done, blockers
 - Active plans in `.opencode/plans/`
-- Recent changes or work in progress
-- Open questions or TODOs
+- Recent changes since last session
 
 ### Step 4: Summarize Context
 
