@@ -2,22 +2,29 @@
 
 ## Purpose
 
-Document the project structure by creating `<foldername>.README.md` files in relevant subfolders. Run this command after `/prime` to document an existing project.
+Document the project structure by creating `README.md` files with folder path comments in relevant subfolders. Run this command after `/prime` to document an existing project.
 
 ---
 
 ## Output
 
-Creates `<foldername>.README.md` files in subfolders based on the sweet spot rules below.
+Creates `README.md` files with `<!-- folder: path -->` comments
+inside folders and subfolders based on the sweet spot rules
+below.
 
 ---
 
 ## README Naming
 
-| Folder Level | Filename |
-|--------------|----------|
-| Root | `README.md` |
-| Subfolder & Sub-subfolder | `<foldername>.README.md` |
+**All folders use standard `README.md`** with a folder path comment at the top.
+
+| Folder Level | Filename | Comment |
+|--------------|----------|---------|
+| Root | `README.md` | `<!-- folder: ./ -->` |
+| Subfolder | `README.md` | `<!-- folder: src/ -->` |
+| Sub-subfolder | `README.md` | `<!-- folder: src/components/ -->` |
+
+**Why:** GitHub only auto-displays `README.md`. Using a comment with folder path keeps it clear while maintaining GitHub compatibility.
 
 ---
 
@@ -38,24 +45,24 @@ Decide whether a folder needs documentation:
 
 ```
 Is this the root folder?
-  YES → Create README.md (brief)
+  YES → Create README.md (brief, <!-- folder: ./ -->)
 
   NO → Is this folder diverse (contains multiple subfolders with DIFFERENT purposes)?
-    YES → Create <foldername>.README.md (brief, mention children have own docs)
+    YES → Create README.md (brief, mention children have own docs, <!-- folder: flask/ -->)
 
     NO → Does this folder serve a single, specific purpose?
-      YES → Create <foldername>.README.md (in-depth)
+      YES → Create README.md (in-depth, <!-- folder: src/components/ -->)
       NO → Skip (reference in parent's README)
 ```
 
 ### Example
 
 ```
-flask/                     # Diverse children → brief README
-├── backend/               # Independent function → in-depth README
-└── frontend/              # Independent function → in-depth README
+flask/                  # Diverse children → brief README
+├── backend/            # Independent function → in-depth README
+└── frontend/           # Independent function → in-depth README
 
-terraform/                 # Single purpose → in-depth README
+terraform/              # Single purpose → in-depth README
 ├── main.tf
 └── variables.tf
 ```
@@ -77,10 +84,10 @@ Every time this command runs, you MUST:
 
 ### Root README (Briefest)
 
-- Project name and one-line description
-- Tech stack
+- Project name and one or two line description
 - High-level directory structure
 - Setup instructions (dev/prod if applicable)
+- Tech stack
 - How to run/build
 
 ### Primary Subfolder README (In-depth)
@@ -130,10 +137,11 @@ For each folder, decide:
 
 ### Step 5: Write Each README
 
-**Naming:** Root = `README.md`, Others = `<foldername>.README.md`
+**Naming:** All folders use `README.md` with folder path comment.
 
 **Root README Template:**
 ```
+<!-- folder: ./ -->
 # Project Name
 
 Brief description (1-2 sentences).
@@ -158,14 +166,15 @@ project/
 
 **Subfolder README Template:**
 ```
-# foldername
+<!-- folder: src/ -->
+# Src
 
 Purpose: What this folder contains and its role in the project.
 
 ## Structure
 
 ```
-foldername/
+src/
 ├── subfolder1/       # Purpose
 ├── file1.js         # Purpose
 └── file2.js         # Purpose
@@ -187,15 +196,15 @@ foldername/
 - Each README has a clear purpose
 - Tree structures are accurate
 - No fluff sentences
-- Naming follows convention (root = README.md, others = <foldername>.README.md)
+- Naming follows convention (all = README.md with folder path comment)
 - All changes detected and documented
 
 ---
 
 ## Quality Checklist
 
-- [ ] Root folder always documented as README.md
-- [ ] Subfolders documented as <foldername>.README.md
+- [ ] Root folder always documented as README.md with folder comment
+- [ ] All README files have `<!-- folder: path -->` comment
 - [ ] Diverse subfolders (with multiple independent children) have brief docs
 - [ ] Single-purpose subfolders have in-depth docs
 - [ ] Simple folders skipped (referenced in parent instead)
@@ -204,7 +213,7 @@ foldername/
 - [ ] Each README answers: "What is this folder for?"
 - [ ] No duplicate information across READMEs
 - [ ] git diff run and changes documented
-- [ ] Existing READMEs checked for convention compliance
+- [ ] Existing READMEs checked for folder path comments
 
 ---
 
