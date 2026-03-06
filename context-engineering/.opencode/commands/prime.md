@@ -14,7 +14,7 @@ Read these files in order:
 
 1. **`.opencode/PRD.md`** - Product Requirements Document
    - Understand what we're building and why
-   - Review scope, user stories, success criteria
+   - Review scope, success criteria
    - Note any constraints or requirements
 
 2. **`.opencode/AGENTS.md`** - AI Agent Rules
@@ -28,10 +28,10 @@ Read these files in order:
    - What is in progress
    - Any blockers
 
-4. **`README.md`** (project root) - if exists
-   - Quick overview of the project
-   - Setup instructions
-   - Key commands
+4. **`README.md`** Files
+   - `README.md` inside project root
+   - `README.md` inside other folders (they likely document
+     specific folders)
 
 ### Step 2: Explore Project Structure
 
