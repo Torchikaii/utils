@@ -21,8 +21,8 @@ below.
 | Folder Level | Filename | Comment |
 |--------------|----------|---------|
 | Root | `README.md` | `<!-- folder: ./ -->` |
-| Subfolder | `README.md` | `<!-- folder: src/ -->` |
-| Sub-subfolder | `README.md` | `<!-- folder: src/components/ -->` |
+| Subfolder | `README.md` | `<!-- folder: root/sub-folder/ -->` |
+| Sub-subfolder | `README.md` | `<!-- folder: root/sub-folder/sub-sub-folder/ -->` |
 
 **Why:** GitHub only auto-displays `README.md`. Using a comment with folder path keeps it clear while maintaining GitHub compatibility.
 
@@ -74,34 +74,39 @@ terraform/              # Single purpose → in-depth README
 Every time this command runs, you MUST:
 
 1. **Grep full file structure** - Get complete directory listing
-2. **Run `git diff`** - Detect any file/folder changes since last documentation
+2. **Run `git diff`** - Detect any file/folder changes since last
+documentation
 3. **If changes found** → Update/create READMEs accordingly
-4. **Check existing READMEs** - If they don't exist or don't follow conventions → create/update them
+4. **Check existing READMEs** - If they don't exist or don't
+follow conventions or are out of date → create/update them
 
 ---
 
 ## Content Guidelines
 
-### Root README (Briefest)
+### Root README (Flexible)
 
-- Project name and one or two line description
-- High-level directory structure
-- Setup instructions (dev/prod if applicable)
-- Tech stack
-- How to run/build
+**No strict rules.** Typical structure (adjust as needed):
+1. Project name (+ optional image)
+2. Brief description
+3. How to use / How to run (stable + dev if available)
+4. How to dev (build from source, contribute)
+5. Structure
+6. Optional: github stats, etc
 
-### Primary Subfolder README (In-depth)
+**Rule:** If existing README looks good, keep it. Only adjust messy ones.
 
-- Purpose: What this folder contains and why
-- Structure: Tree view of immediate contents
-- Key files: Brief description of important files
-- Usage: How other parts of the project use this
+### Subfolder with Diverse Children (Brief)
 
-### Sub-subfolder README (Brief or In-depth)
+- Brief description
+- Mention children have their own README files
+- Can skip strict structure
 
-- Depends on complexity
-- If parent already explains, keep very brief
-- If standalone complex component, document in-depth
+### Subfolder without Children / Independent Sub-subfolder (Strict)
+
+- Brief description of what this folder is
+- Structure (tree)
+- Purpose/Usage section
 
 ---
 
@@ -139,55 +144,42 @@ For each folder, decide:
 
 **Naming:** All folders use `README.md` with folder path comment.
 
-**Root README Template:**
+**Root README:** Use judgment. If existing README is good, keep it. Otherwise, typical order:
+1. Project name (+ optional image)
+2. Brief description
+3. How to use / How to run (stable, dev)
+4. How to dev (build, contribute)
+5. Structure
+6. Optional: github stats
+
+**Subfolder with Diverse Children (Brief):**
 ```
-<!-- folder: ./ -->
-# Project Name
+<!-- folder: flask/ -->
+# Flask
 
-Brief description (1-2 sentences).
+Brief description of what this folder contains.
 
-## Tech Stack
+Contains backend/ and frontend/ - each has its own documentation.
+```
 
-- [List key technologies]
+**Subfolder without Children / Independent Sub-subfolder (Strict):**
+```
+<!-- folder: src/components/ -->
+# Components
+
+Brief description of what this folder is.
 
 ## Structure
 
 ```
-project/
-├── folder1/          # Purpose
-├── folder2/          # Purpose
-└── folder3/          # Purpose
+src/components/
+├── Button.js
+└── Input.js
 ```
 
-## Setup
+## Purpose/Usage
 
-[How to install/run]
-```
-
-**Subfolder README Template:**
-```
-<!-- folder: src/ -->
-# Src
-
-Purpose: What this folder contains and its role in the project.
-
-## Structure
-
-```
-src/
-├── subfolder1/       # Purpose
-├── file1.js         # Purpose
-└── file2.js         # Purpose
-```
-
-## Key Files
-
-- **file1.js** - [Brief description]
-- **file2.js** - [Brief description]
-
-## Usage
-
-[How other parts use this]
+What this folder contains and how other parts use it.
 ```
 
 ### Step 6: Validate
