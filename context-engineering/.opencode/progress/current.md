@@ -1,18 +1,18 @@
 # Project Progress
 
-## Current Phase: [phase number]
+### Current Phase: [phase number]
 
-## Completed Tasks
+### Completed Tasks
 
-- [ ]
+- [ ] phase 1
 
-## In Progress
+### In Progress
 
-- [ ]
+- [ ] phase 1
 
-## Blockers
+### Blockers
 
 -
 
-## Notes
+### Notes
 

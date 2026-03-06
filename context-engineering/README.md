@@ -25,7 +25,7 @@ SESSION 1: Initial Planning
 └── 3. /create-rules → creates .opencode/AGENTS.md
 
 SESSION 2: Feature Planning
-├── 1. /prime → loads PRD + AGENTS.md + progress context
+├── 1. /prime → loads PRD + AGENTS.md + current.md context
 ├── 2. /plan-feature → creates .opencode/plans/phase-1-plan.md
 └── (optional: iterate within session)
 
@@ -42,7 +42,8 @@ phase-1-plan.md).
 
 PERIODIC:
 ├── /document-project → this will update project's docs (READMEs)
-└── /rewrite-prd → rewrites PRD.md based on progress.md
+├── /rewrite-prd → rewrites PRD.md based on current.md
+└── update current.md manually (no LLM intervention)
 ```
 
 ---
@@ -57,7 +58,7 @@ PERIODIC:
 | `/plan-feature` | Create phase-X-plan.md in plans/ |
 | `/execute <plan>` | Execute plan with validation |
 | `/document-project` | Create folder documentation |
-| `/rewrite-prd` | Rewrite PRD based on progress |
+| `/rewrite-prd` | Rewrite PRD based on current.md |
 
 ---
 
