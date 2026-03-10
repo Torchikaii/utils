@@ -16,15 +16,7 @@ Write to: `.opencode/AGENTS.md`
 
 ### Step 1: Read the Template
 
-Read `.opencode/AGENTS-template.md` to understand the base structure:
-- Project Overview placeholder
-- Core Principles
-- Coding Style
-- Testing Strategy
-- Questions Policy
-- Project Structure
-- Communication Guidelines
-- Common Pitfalls
+Read `.opencode/AGENTS-template.md` to understand the base structure of `.opencode/AGENTS.md` file youre creating
 
 ### Step 2: Read PRD Context
 

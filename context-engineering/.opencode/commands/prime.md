@@ -10,23 +10,15 @@ Rebuild project awareness in a new OpenCode session. This command provides the A
 
 ### Step 1: Read Core Documents
 
-Read these files in order:
+You **MUST** read these files in order:
 
 1. **`.opencode/PRD.md`** - Product Requirements Document
-   - Understand what we're building and why
-   - Review scope, success criteria
-   - Note any constraints or requirements
 
-2. **`.opencode/AGENTS.md`** - AI Agent Rules
-   - Understand coding style and conventions
-   - Review testing requirements
-   - Remember the Questions Policy
+2. **`.opencode/AGENTS.md`** - AI Agent Rules (obey these)
 
 3. **`.opencode/progress/current.md`** - Project progress
    - Current phase number
    - What has been completed (human-marked ✅)
-   - What is in progress
-   - Any blockers
 
 4. **`README.md`** Files
    - `README.md` inside project root
@@ -40,50 +32,6 @@ Examine the actual project structure:
 - Identify key directories (src/, lib/, tests/, etc.)
 - Note any configuration files
 
-### Step 3: Review Current State
-
-Check:
-- **`.opencode/progress/current.md`** - Current phase, what's done, blockers
-- Active plans in `.opencode/plans/`
-- Recent changes since last session
-
-### Step 4: Summarize Context
-
-Provide a concise summary to the user covering:
-- **Project:** What this project is
-- **Current Phase:** Where we are in the workflow
-- **Tech Stack:** Main technologies used
-- **Next Steps:** What to work on next (if clear)
-- **Open Questions:** Any unclear aspects requiring clarification
-
----
-
-## Expected Output
-
-A structured summary like:
-
-```
-## Project Context
-
-**Project:** [Name] - [One-line description]
-
-**Phase:** [Planning / Implementation Phase X]
-
-**Tech Stack:**
-- [List key technologies]
-
-**Key Files:**
-- PRD: .opencode/PRD.md
-- Rules: .opencode/AGENTS.md
-
-**Current Focus:**
-- [What should be worked on next]
-
-**Questions to Clarify:**
-- [Any unclear aspects]
-```
-
----
 
 ## Notes
 

@@ -2,7 +2,9 @@
 
 ## Purpose
 
-Document the project structure by creating `README.md` files with folder path comments in relevant subfolders. Run this command after `/prime` to document an existing project.
+Document the project structure by creating `README.md` files
+with folder path comments in relevant subfolders. Run this
+command after `/prime` to document an existing project.
 
 ---
 
@@ -16,7 +18,8 @@ below.
 
 ## README Naming
 
-**All folders use standard `README.md`** with a folder path comment at the top.
+**All folders use standard `README.md`** with a folder path
+comment at the top.
 
 | Folder Level | Filename | Comment |
 |--------------|----------|---------|
@@ -24,13 +27,12 @@ below.
 | Subfolder | `README.md` | `<!-- folder: root/sub-folder/ -->` |
 | Sub-subfolder | `README.md` | `<!-- folder: root/sub-folder/sub-sub-folder/ -->` |
 
-**Why:** GitHub only auto-displays `README.md`. Using a comment with folder path keeps it clear while maintaining GitHub compatibility.
 
 ---
 
 ## Sweet Spot Rules
 
-Decide whether a folder needs documentation:
+Decide whether a folder needs documentation or not:
 
 | Folder Type | Decision | Depth | Reasoning |
 |-------------|----------|-------|-----------|
@@ -55,7 +57,7 @@ Is this the root folder?
       NO → Skip (reference in parent's README)
 ```
 
-### Example
+### Example for decision flow
 
 ```
 flask/                  # Diverse children → brief README
@@ -74,8 +76,7 @@ terraform/              # Single purpose → in-depth README
 Every time this command runs, you MUST:
 
 1. **Grep full file structure** - Get complete directory listing
-2. **Run `git diff`** - Detect any file/folder changes since last
-documentation
+2. Detect any file/folder changes since last documentation
 3. **If changes found** → Update/create READMEs accordingly
 4. **Check existing READMEs** - If they don't exist or don't
 follow conventions or are out of date → create/update them
@@ -84,40 +85,32 @@ follow conventions or are out of date → create/update them
 
 ## Content Guidelines
 
-### Root README (Flexible)
+### Root README
 
-**No strict rules.** Typical structure (adjust as needed):
+Typical structure (in order):
 1. Project name (+ optional image)
 2. Brief description
 3. How to use / How to run (stable + dev if available)
 4. How to dev (build from source, contribute)
-5. Structure
+5. Tree-like **BRIEF** file/folder structure
 6. Optional: github stats, etc
 
-**Rule:** If existing README looks good, keep it. Only adjust messy ones.
 
-### Subfolder with Diverse Children (Brief)
+### Subfolder with Diverse Children
 
 - Brief description
 - Mention children have their own README files
-- Can skip strict structure
 
-### Subfolder without Children / Independent Sub-subfolder (Strict)
+### Subfolder without Diverse Children / Independent Sub-subfolder
 
 - Brief description of what this folder is
-- Structure (tree)
-- Purpose/Usage section
-
----
-
-## Common Folders That **MAY** Need Documentation
-
-| Folder | What to Document |
-|--------|-----------------|
-| `.github/workflows/` | Each workflow: what it does, triggers |
-| `database/` | Schema, migrations |
-| `docs/` | Additional documentation |
-| `scripts/` | What each script does |
+- Structure (tree + file labels). If contains redundand
+files (e.g. /languages folder has so many html templates with
+shared structure, only list a few of them and add "..." at the
+end, no need to list 100 common files).
+- Purpose/Usage section. Go in depth here, but be concise and
+clear. Provide examples from that folder's filesystem with their
+working principles explanation
 
 ---
 
@@ -167,14 +160,11 @@ For each folder, decide:
 
 **Naming:** All folders use `README.md` with folder path comment.
 
-**Root README:** Use judgment. If existing README is good, keep it. Otherwise, typical order:
-1. Project name (+ optional image)
-2. Brief description
-3. How to use / How to run (stable, dev)
-4. How to dev (build, contribute)
-5. Structure
-6. Optional: github stats
-
+**Root README:**
+```
+<!--folder: ./ -->
+steps 1 to 6 above
+```
 **Subfolder with Diverse Children (Brief):**
 ```
 <!-- folder: flask/ -->
@@ -185,7 +175,7 @@ Brief description of what this folder contains.
 Contains backend/ and frontend/ - each has its own documentation.
 ```
 
-**Subfolder without Children / Independent Sub-subfolder (Strict):**
+**Subfolder without Diverse Children / Independent Sub-subfolder (Strict):**
 ```
 <!-- folder: src/components/ -->
 # Components
@@ -219,7 +209,7 @@ What this folder contains and how other parts use it.
 ## Quality Checklist
 
 - [ ] Root folder always documented as README.md with folder comment
-- [ ] All README files have `<!-- folder: path -->` comment
+- [ ] All README files have `<!-- folder: path -->` comment in their first line
 - [ ] Diverse subfolders (with multiple independent children) have brief docs
 - [ ] Single-purpose subfolders have in-depth docs
 - [ ] Simple folders skipped (referenced in parent instead)
@@ -237,4 +227,4 @@ What this folder contains and how other parts use it.
 - Be selective - better fewer quality docs than many half-hearted ones
 - If unsure whether a folder needs docs, lean towards skipping
 - A folder with 2-3 simple files doesn't need its own README
-- Test folders (`tests/`, `__tests__`) usually don't need docs if structure mirrors src
+
