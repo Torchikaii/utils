@@ -1,8 +1,16 @@
 #!/bin/bash
 
-set -e
+source "$(dirname "$0")/../commands/logging.sh"
 
-export DEBIAN_FRONTEND=noninteractive
+log "git.sh running"
 
-sudo apt update -y
-sudo apt install -y git
+if dpkg -s git >/dev/null 2>&1; then
+    log "Git already installed, skipping"
+    exit 0
+fi
+
+log "Installing Git"
+sudo apt update >/dev/null 2>&1
+sudo apt install -y -qq git >/dev/null 2>&1
+
+log "git.sh completed"

@@ -24,5 +24,3 @@ bash ./ubuntu-utility/services/cifs-utils.sh
 # system configuration
 bash ./ubuntu-utility/dotfiles.sh
 bash ./ubuntu-utility/keyboard.sh
-
-

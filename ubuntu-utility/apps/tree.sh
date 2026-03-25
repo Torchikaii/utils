@@ -1,12 +1,16 @@
 #!/bin/bash
 
-set -euo pipefail
+source "$(dirname "$0")/../commands/logging.sh"
 
-export DEBIAN_FRONTEND=noninteractive
+log "tree.sh running"
 
-echo "tree.sh running"
+if dpkg -s tree >/dev/null 2>&1; then
+    log "Tree already installed, skipping"
+    exit 0
+fi
 
-sudo apt update -y -qq
-sudo apt install tree -y -qq
+log "Installing Tree"
+sudo apt update >/dev/null 2>&1
+sudo apt install -y -qq tree >/dev/null 2>&1
 
-echo "tree.sh finished"
+log "tree.sh completed"

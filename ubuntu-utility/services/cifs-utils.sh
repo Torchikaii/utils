@@ -1,13 +1,16 @@
 #!/bin/bash
 
-set -euo pipefail
+source "$(dirname "$0")/../commands/logging.sh"
 
-echo "cifs-utils.sh running ..."
+log "cifs-utils.sh running"
 
-sudo apt update -y
-sudo apt install cifs-utils -y
-sudo apt install smbclient -y
+if dpkg -s cifs-utils >/dev/null 2>&1 && dpkg -s smbclient >/dev/null 2>&1; then
+    log "cifs-utils already installed, skipping"
+    exit 0
+fi
 
-echo "cifs-utils.sh completed"
+log "Installing cifs-utils"
+sudo apt update >/dev/null 2>&1
+sudo apt install -y -qq cifs-utils smbclient >/dev/null 2>&1
 
-
+log "cifs-utils.sh completed"

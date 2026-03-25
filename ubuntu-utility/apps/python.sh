@@ -1,17 +1,19 @@
-#!/bin/env bash
+#!/bin/bash
 
-set -euo pipefail
+source "$(dirname "$0")/../commands/logging.sh"
 
-export DEBIAN_FRONTEND=noninteractive
+log "python.sh running"
 
-# temporarely export in, as .bashrc is loaded later
-export PATH="$HOME/.pyenv/bin:$PATH"  # pyenv
+export PATH="$HOME/.pyenv/bin:$PATH"
 eval "$(pyenv init --path)"
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"   
 
-
-if ! pyenv versions | grep -q "3.12.12"; then
+if pyenv versions | grep -q "3.12.12"; then
+    log "Python 3.12.12 already installed, skipping"
+else
+    log "Installing Python 3.12.12"
     pyenv install 3.12.12
 fi
-pyenv global 3.12.12 
+
+pyenv global 3.12.12
+
+log "python.sh completed"

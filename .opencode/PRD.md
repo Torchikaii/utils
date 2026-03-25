@@ -1,203 +1,326 @@
-# Project Requirements Document: Ubuntu Utility
+# Product Requirements Document: Utils Monorepo
 
-## 1. Project Overview
-
-**Project Name:** Ubuntu Utility  
-**Description:** A collection of bash scripts to automate the installation of programs and configuration of an Ubuntu system from a fresh installation.  
-**Objectives:**
-- Automate the setup of a personal Ubuntu development environment
-- Provide idempotent scripts that are safe to re-run
-- Maintain consistent dotfiles and configurations across systems
-
-**Scope:**
-- **Included:** Application installation scripts, dotfile management, keyboard layout configuration, system services setup
-- **Excluded:** Desktop environment customization beyond GNOME defaults, hardware-specific configurations, non-Linux OS support
+**Version:** 1.0  
+**Last Updated:** 2026-03-25
 
 ---
 
-## 2. Requirements
+## 1. Executive Summary
 
-### 2.1 Functional Requirements
+This repository serves as a personal utility toolkit ("utils"), consolidating small but essential scripts and configurations that support daily development workflows. Rather than maintaining numerous separate repositories for small utilities, this monorepo approach keeps related tools organized, version-controlled, and easily deployable across systems.
 
-| ID | Requirement | Description |
-|----|-------------|--------------|
-| FR-1 | Main Entry Point | `main.sh` must execute all sub-scripts in correct order |
-| FR-2 | Application Installation | Individual scripts must install: docker, terraform, opencode CLI, brave browser, alacritty, keepassxc, p7zip, git, vim, tree |
-| FR-3 | Dotfile Management | `dotfiles.sh` must create symlinks from `~/.config` to repository dotfiles |
-| FR-4 | Keyboard Configuration | `keyboard.sh` must configure console and GNOME keyboard layouts |
-| FR-5 | Service Configuration | Scripts must configure: SSH, CIFS utils (SMB client), NFS common |
-| FR-6 | Idempotency | All scripts must be safe to re-run (use `rm -f` before symlinks) |
-| FR-7 | Error Handling | Scripts must use `set -e` to fail on errors |
+The project addresses the practical reality that developers accumulate small scripts, configurations, and tools over time. By centralizing these utilities, the repository enables quick environment reconstruction, workflow automation, and knowledge preservation.
 
-### 2.2 Non-Functional Requirements
+**Core Value Proposition:** One repository to rule all personal utilities — portable, maintainable, and ready to deploy anywhere.
 
-| ID | Requirement | Target |
-|----|-------------|--------|
-| NFR-1 | Compatibility | Ubuntu 20.04+ (LTS versions) |
-| NFR-2 | Idempotency | Scripts must not fail on repeated execution |
-| NFR-3 | Portability | Assumes utils repository at `~/repos/utils` |
-| NFR-4 | Dependencies | Must run with standard bash shell |
-| NFR-5 | Safety | No destructive operations beyond intended config replacement |
+**MVP Goal:** Provide a curated collection of utilities that reduce friction in daily development tasks, from workstation setup to BOM management to structured AI-assisted development.
 
 ---
 
-## 3. Technical Specifications
+## 2. Mission & Principles
 
-### 3.1 Technology Stack
+### Mission Statement
 
-| Component | Technology |
-|-----------|------------|
-| Language | Bash (POSIX-compliant) |
-| Package Manager | apt, snap |
-| Configuration | TOML (Alacritty), Dconf (GNOME) |
-| Version Control | Git |
+Build and maintain a personal utility ecosystem that eliminates repetitive tasks, preserves institutional knowledge, and enables instant environment recreation across machines.
 
-### 3.2 Architecture
+### Core Principles
+
+1. **Simplicity First** — Each utility should do one thing well. Avoid over-engineering small tools.
+2. **Portability** — Utilities must work across different environments (Linux, Windows via scripts, etc.)
+3. **Idempotency** — Scripts must be safe to re-run. No duplicate entries, no errors on re-execution.
+4. **Self-Contained** — Minimal external dependencies. Prefer standard library tools where possible.
+5. **Documentation by Default** — Every utility includes README explaining purpose, usage, and dependencies.
+
+---
+
+## 3. Target Users
+
+### Primary User
+
+**The Solo Developer / Power User**
+- Develops firmware/PCB using Altium Designer
+- Uses Ubuntu as primary workstation
+- Leverages AI tools (OpenCode) for development assistance
+- Maintains Windows environment for specific tasks
+
+### Technical Comfort Level
+
+- Comfortable with command line
+- Familiar with shell scripting (bash)
+- Basic Python knowledge for BOM utilities
+- Understands symlinks and dotfile management
+
+### Problems Solved
+
+| Problem | Utility |
+|---------|---------|
+| Time-consuming fresh Ubuntu setup | `ubuntu-utility/` |
+| Repetitive BOM column modifications | `BOM-reconstructor/` |
+| Slow NAS navigation | `cd-NAS/` |
+| Inconsistent AI development workflows | `context-engineering/` |
+| Scattered documentation | `docs/` |
+
+---
+
+## 4. Scope
+
+### In Scope (MVP) ✅
+
+- [ ] **ubuntu-utility** — Automated Ubuntu workstation setup
+  - Shell scripts for app installation (docker, terraform, brave, vim, etc.)
+  - Keyboard layout configuration
+  - Dotfile symlinking (bash, vim, alacritty)
+  - Network storage mounting (cifs, nfs)
+  - Safe to re-run idempotent execution
+
+- [ ] **BOM-reconstructor** — Altium BOM file processing
+  - Python scripts for Excel manipulation
+  - Column addition/removal
+  - CSV consolidation from multiple files
+  - Works with Altium default export format
+
+- [ ] **cd-NAS** — Quick NAS access
+  - Windows CMD script (`repos.bat`)
+  - PowerShell script (`repos.ps1`)
+  - Auto-login and directory change
+
+- [ ] **context-engineering** — OpenCode workflow templates
+  - PRD generation command
+  - Agent rules templates
+  - Progress tracking system
+  - Feature planning templates
+
+- [ ] **docs** — Reference documentation
+  - Git credential management
+  - How-to guides
+
+### Out of Scope ❌
+
+- [ ] GUI applications (CLI-first approach)
+- [ ] Cross-platform abstraction layers
+
+---
+
+## 5. User Stories
+
+### Ubuntu Setup
+
+**US-001:** As a developer, I want to run one script to set up a fresh Ubuntu machine, so I can be productive within minutes instead of hours of manual configuration.
+
+**US-002:** As a developer, I want my dotfiles symlinked from a repository, so changes to configuration are automatically shared across machines.
+
+**US-003:** As a developer, I want keyboard shortcuts configured automatically, so I don't have to reconfigure after each Ubuntu reinstall.
+
+**US-004:** As a developer, I want to mount NAS storage with a single command, so I can access my files without manual network configuration.
+
+### BOM Processing
+
+**US-005:** As an electronics engineer, I want to modify BOM columns from Altium exports, so I can prepare files for different manufacturing requirements.
+
+**US-006:** As an electronics engineer, I want to consolidate multiple BOM files, so I can compare revisions or merge component lists.
+
+### Development Workflow
+
+**US-007:** As an AI-augmented developer, I want structured planning commands, so I can break complex features into manageable phases.
+
+**US-008:** As an AI-augmented developer, I want progress tracking, so I can see what remains in each development phase.
+
+### Cross-Platform
+
+**US-009:** As a developer using both Windows and Linux, I want platform-specific utilities in one repo, so I don't forget where my tools are located.
+
+---
+
+## 6. Architecture & Design
+
+### Directory Structure
 
 ```
-ubuntu-utility/
-├── main.sh              # Entry point - orchestrates all scripts
-├── dotfiles.sh          # Symlinks dotfiles to ~/.config
-├── keyboard.sh          # Keyboard layout configuration
-├── apps/                # Application installation scripts
-│   ├── docker.sh
-│   ├── terraform.sh
-│   ├── brave.sh
-│   ├── alacritty.sh
-│   ├── opencode.sh
-│   ├── keepassxc.sh
-│   ├── p7zip.sh
-│   ├── git.sh
-│   ├── vim.sh
-│   └── tree.sh
-├── services/            # System service configurations
-│   ├── ssh.sh
-│   ├── cifs-utils.sh
-│   └── nfs-common.sh
-└── dotfiles/            # Configuration files (source for symlinks)
-    ├── bash/.bashrc
-    ├── vim/.vimrc
-    ├── keyboard.dconf
-    └── alacritty/
-        ├── alacritty.toml
-        └── themes/
+utils/
+├── .opencode/           # AI development workflow templates
+│   ├── commands/        # Slash commands for OpenCode
+│   ├── progress/        # Human-tracked task completion
+│   └── plans/           # Feature implementation plans
+├── BOM-reconstructor/   # BOM processing utilities
+│   ├── consolidate_bom.py
+│   └── consolidate_bom_excel.py
+├── cd-NAS/             # NAS quick-access scripts
+│   ├── repos.bat        # Windows CMD
+│   └── repos.ps1        # Windows PowerShell
+├── context-engineering/ # OpenCode templates
+│   └── .opencode/       # Copy-to-project templates
+├── docs/               # Documentation
+├── ubuntu-utility/     # Ubuntu setup scripts
+│   ├── main.sh          # Master orchestration script
+│   ├── apps/            # Individual app installers
+│   ├── services/        # Service configurations
+│   ├── commands/        # Utility commands
+│   └── dotfiles/        # Config files (symlink targets)
+└── README.md           # Repository entry point
 ```
 
-### 3.3 Dependencies
+### Design Patterns
 
-- **External Packages:** docker.io, terraform, brave-browser, alacritty, keepassxc, p7zip-full, git, vim, tree, openssh-client, cifs-utils, nfs-common
-- **External Services:** Ubuntu apt repositories, Brave Browser APT repository
-
-### 3.4 Constraints
-
-- Repository must be located at `~/repos/utils`
-- Requires internet access for package downloads
-- Requires sudo privileges for package installation
-- Assumes GNOME desktop environment for keyboard.dconf
+| Pattern | Application |
+|---------|-------------|
+| **Facade** | `main.sh` orchestrates all sub-scripts |
+| **Single Responsibility** | Each `.sh` file handles one app/service |
+| **Template Method** | Context engineering commands follow consistent structure |
+| **Idempotent Scripts** | All scripts check state before modifying |
 
 ---
 
-## 4. Success Criteria
+## 7. Technology Stack
 
-### 4.1 Metrics
+### Shell Scripts
+- **Bash** — Primary scripting language for Ubuntu
+- **DASH** — POSIX-compliant shell compatibility
+- **Dconf/GSettings** — GNOME configuration management
+
+### Python
+- **Python 3.x** — BOM processing
+- **openpyxl** — Excel file manipulation
+- **pandas** — Data processing (optional enhancement)
+
+### Platform-Specific
+- **CMD/PowerShell** — Windows NAS scripts
+- **GitHub Actions** — CI/CD workflows
+
+### Development Tools
+- **OpenCode** — AI development assistant
+- **Zod** — Schema validation for context engineering
+
+---
+
+## 8. Security & Configuration
+
+### Authentication
+
+| Utility | Method |
+|---------|--------|
+| NAS Mounting | Stored credentials (cifs-utils) |
+| Git | SSH keys / credential helpers |
+| General | No sensitive data in repo |
+
+### Configuration Management
+
+- **Dotfiles** stored in `ubuntu-utility/dotfiles/`
+- **Symlinks** created to `~/.config`
+- **No hardcoded paths** — uses `~/repos/utils` convention
+
+### Security Scope
+
+- No production secrets stored
+- No API keys or tokens in repository
+- `.gitignore` excludes sensitive files
+- Credentials handled by system keyring (future enhancement)
+
+---
+
+## 9. API Specification
+
+Not applicable — this is a collection of standalone utilities, not an API-driven service.
+
+---
+
+## 10. Success Criteria
+
+### Functional Acceptance Criteria ✅
+
+- [ ] `ubuntu-utility/main.sh` executes without errors on fresh Ubuntu 22.04+
+- [ ] All app installers create working installations
+- [ ] Dotfile symlinks resolve correctly
+- [ ] BOM Python scripts produce valid Excel output
+- [ ] NAS scripts connect to configured server
+- [ ] OpenCode commands load correct templates
+
+### Quality Indicators
 
 | Metric | Target |
 |--------|--------|
-| Scripts Executable | All .sh files have execute permission |
-| Idempotency Test | Running `main.sh` twice completes without error |
-| Symlink Verification | All dotfiles symlinked correctly to ~/.config |
-| Package Verification | Installed packages available in PATH |
-
-### 4.2 Acceptance Criteria
-
-- [ ] `main.sh` executes all sub-scripts without failure
-- [ ] Each application script installs the intended package
-- [ ] `dotfiles.sh` creates valid symlinks for bash, vim, alacritty configs
-- [ ] `keyboard.sh` applies keyboard layout settings
-- [ ] Service scripts configure SSH/CIFS/NFS without error
-- [ ] All scripts are re-run safe (idempotent)
-
-### 4.3 Performance Targets
-
-- Full execution time: < 30 minutes on fresh Ubuntu
-- Individual script execution: < 5 minutes each
+| Scripts re-run safely | 100% idempotent |
+| README coverage | All utilities documented |
+| Cross-session context | OpenCode templates functional |
+| Setup time (Ubuntu) | < 30 minutes automated |
 
 ---
 
-## 5. Timeline & Resources
+## 11. Implementation Phases
 
-### 5.1 Milestones
+### Phase 1: Foundation ✅
+**Goal:** Establish core infrastructure
 
-| Milestone | Status | Notes |
-|-----------|--------|-------|
-| Core Scripts (main, dotfiles, keyboard) | Complete | Core functionality implemented |
-| Application Installation Scripts | Complete | 10 app scripts completed |
-| Service Configuration Scripts | Complete | SSH, CIFS, NFS scripts |
-| Dotfile Repository | Complete | bash, vim, alacritty configs |
+- [x] Repository structure created
+- [x] Basic ubuntu-utility scripts implemented
+- [x] README documentation written
+- [x] Git ignore configured
 
-### 5.2 Team
+**Validation:** Can clone repo and run `main.sh` on fresh Ubuntu  
+**Timeline:** Completed
 
-| Role | Responsibility |
-|------|----------------|
-| Owner/Maintainer | Single user personal project |
+### Phase 2: Utility Expansion ✅
+**Goal:** Add missing utilities
 
-### 5.3 Budget
+- [x] BOM-reconstructor Python scripts added
+- [x] cd-NAS Windows scripts added
+- [x] context-engineering templates created
+- [x] docs folder populated
 
-None - all open-source tools and packages.
+**Validation:** Each utility works independently  
+**Timeline:** Completed
 
----
+### Phase 3: Workflow Integration (Current)
+**Goal:** Enhance AI-assisted development
 
-## 6. Risks & Assumptions
+- [x] OpenCode command templates implemented
+- [x] PRD generation workflow created
+- [ ] Agent rules template refined
+- [ ] Progress tracking system operational
 
-### 6.1 Assumptions
+**Validation:** Can run full `/create-prd` → `/execute` workflow  
+**Timeline:** In progress
 
-- User has fresh Ubuntu 20.04+ installation
-- User has sudo privileges
-- Internet connection available for package downloads
-- Repository cloned to `~/repos/utils`
+### Phase 4: Polish & Portability
+**Goal:** Improve maintainability
 
-### 6.2 Risks
+- [ ] Add input validation to all scripts
+- [ ] Create Windows WSL compatibility layer
+- [ ] Add installation script for cd-NAS
+- [ ] Document all command-line arguments
 
-| Risk | Impact | Mitigation |
-|------|--------|------------|
-| External package repository changes | High | Pin package versions; test on each Ubuntu LTS release |
-| Path dependency | Medium | Document requirement; add path validation |
-| GNOME API changes | Low | keyboard.dconf may need updates for new GNOME versions |
-| Breaking changes in Brave/Terraform | Low | Pin versions in install scripts |
-
-### 6.3 Dependencies
-
-- Ubuntu apt repositories
-- Brave Browser APT repository
-- Terraform downloads (HashiCorp)
-
----
-
-## 7. Deliverables
-
-### 7.1 Tangible Outputs
-
-| Deliverable | Location |
-|-------------|----------|
-| Main entry script | `ubuntu-utility/main.sh` |
-| Application scripts | `ubuntu-utility/apps/*.sh` |
-| Service scripts | `ubuntu-utility/services/*.sh` |
-| Dotfile manager | `ubuntu-utility/dotfiles.sh` |
-| Keyboard config | `ubuntu-utility/keyboard.sh` |
-| Configuration files | `ubuntu-utility/dotfiles/**` |
-
-### 7.2 Documentation
-
-- Project README at `ubuntu-utility/README.md`
-- Inline comments in all shell scripts
-
-### 7.3 Testing
-
-- Manual execution on fresh Ubuntu VM
-- Idempotency verification (re-run test)
-- Symlink verification via `ls -la ~/.config`
+**Validation:** All scripts have `--help` or usage info  
+**Timeline:** Future
 
 ---
 
-*Document Version: 1.0*  
-*Last Updated: 2026-02-27*
+## 12. Risks & Mitigations
+
+| Risk | Impact | Likelihood | Mitigation |
+|------|--------|------------|------------|
+| **Path dependencies** — Scripts assume `~/repos/utils` | Medium | High | Document path requirement; add path detection |
+| **Ubuntu version drift** — APIs change between releases | Medium | Medium | Test on LTS releases; use version checks |
+| **BOM format changes** — Altium export format varies | Low | Medium | Add format detection; version comments |
+| **Context engineering template bloat** — Over-engineering | Low | Medium | Keep templates minimal; iterate based on need |
+| **Windows script neglect** — Scripts not tested regularly | Low | High | Add periodic testing; document requirements |
+
+---
+
+## 13. Future Considerations
+
+### Post-MVP Enhancements
+
+- **Windows Subsystem for Linux (WSL) support** — Unified scripts across Windows/Linux
+- **Homebrew/Linuxbrew compatibility** — Package management abstraction
+- **Docker containerization** — Portable development environments
+- **Ansible/Terraform integration** — Infrastructure-as-code for workstation
+- **Dotfiles manager integration** — Consider chezmoi or GNU Stow
+
+### Integration Opportunities
+
+- **GitHub Codespaces** — Cloud development environment
+- **VS Code Remote** — Remote development support
+- **Tailscale/Headscale** — Secure remote access to NAS
+
+### Long-Term Vision
+
+When any single utility outgrows the monorepo, it can be extracted into its own repository while maintaining the development workflow established here. The context-engineering system is designed to be portable — copy `.opencode/` to any project for consistent AI-assisted development.

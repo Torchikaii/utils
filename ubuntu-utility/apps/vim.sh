@@ -1,8 +1,16 @@
 #!/bin/bash
 
-set -e
+source "$(dirname "$0")/../commands/logging.sh"
 
-export DEBIAN_FRONTEND=noninteractive
+log "vim.sh running"
 
-sudo apt update -y
-sudo apt install -y vim-gtk3
+if dpkg -s vim-gtk3 >/dev/null 2>&1; then
+    log "Vim already installed, skipping"
+    exit 0
+fi
+
+log "Installing Vim"
+sudo apt update >/dev/null 2>&1
+sudo apt install -y -qq vim-gtk3 >/dev/null 2>&1
+
+log "vim.sh completed"

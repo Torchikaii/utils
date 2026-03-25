@@ -1,44 +1,17 @@
 #!/bin/bash
 
-set -euo pipefail
+source "$(dirname "$0")/commands/logging.sh"
 
-echo "dotfiles.sh running..."
+log "dotfiles.sh running"
 
+mkdir -p ~/.config/alacritty
+rm -f ~/.config/alacritty/alacritty.toml
+ln -s ~/repos/utils/ubuntu-utility/dotfiles/alacritty/alacritty.toml ~/.config/alacritty/alacritty.toml
 
-#------------------------------
-#  Alacritty
+rm -f ~/.bashrc
+ln -s ~/repos/utils/ubuntu-utility/dotfiles/bash/.bashrc ~/.bashrc
 
-echo "setting up dotfiles for allacrity"
+rm -f ~/.vimrc
+ln -s ~/repos/utils/ubuntu-utility/dotfiles/vim/.vimrc ~/.vimrc
 
-ALACRITTY_CONFIG_DIR="$HOME/.config/alacritty"
-ALACRITTY_CONFIG="$ALACRITTY_CONFIG_DIR/alacritty.toml"
-
-mkdir -p "$ALACRITTY_CONFIG_DIR"
-
-rm -f "$ALACRITTY_CONFIG"
-ln -s "$HOME/repos/utils/ubuntu-utility/dotfiles/alacritty/alacritty.toml" "$ALACRITTY_CONFIG"
-
-
-#-------------------------------
-# Bash
-
-echo "setting up dotfiles for bash"
-
-BASH_CONFIG="$HOME/.bashrc"
-
-rm -f "$BASH_CONFIG"
-ln -s "$HOME/repos/utils/ubuntu-utility/dotfiles/bash/.bashrc" "$BASH_CONFIG"
-
-
-#----------------------------------
-# Vim
-
-echo "setting up dotfiles for vim"
-
-VIM_CONFIG="$HOME/.vimrc"
-
-rm -f "$VIM_CONFIG"
-ln -s "$HOME/repos/utils/ubuntu-utility/dotfiles/vim/.vimrc" "$VIM_CONFIG"
-
-
-echo "dotfiles.sh finished"
+log "dotfiles.sh completed"

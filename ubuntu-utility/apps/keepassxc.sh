@@ -1,12 +1,19 @@
 #!/bin/bash
 
-set -e
+source "$(dirname "$0")/../commands/logging.sh"
 
-export DEBIAN_FRONTEND=noninteractive
+log "keepassxc.sh running"
 
-sudo apt update -y
+if dpkg -s keepassxc >/dev/null 2>&1; then
+    log "KeePassXC already installed, skipping"
+    exit 0
+fi
 
-sudo apt install -y software-properties-common
+log "Installing KeePassXC"
+sudo apt update >/dev/null 2>&1
+sudo apt install -y -qq software-properties-common >/dev/null 2>&1
 sudo add-apt-repository -y ppa:phoerious/keepassxc
-sudo apt update -y
-sudo apt install keepassxc -y
+sudo apt update >/dev/null 2>&1
+sudo apt install -y -qq keepassxc >/dev/null 2>&1
+
+log "keepassxc.sh completed"

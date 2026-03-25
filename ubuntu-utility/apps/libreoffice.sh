@@ -1,8 +1,16 @@
-#!/bin/env bash
+#!/bin/bash
 
-set -e
+source "$(dirname "$0")/../commands/logging.sh"
 
-export DEBIAN_FRONTEND=noninteractive
+log "libreoffice.sh running"
 
-sudo apt update -y
-sudo apt install -y libreoffice
+if dpkg -s libreoffice >/dev/null 2>&1; then
+    log "LibreOffice already installed, skipping"
+    exit 0
+fi
+
+log "Installing LibreOffice"
+sudo apt update >/dev/null 2>&1
+sudo apt install -y -qq libreoffice >/dev/null 2>&1
+
+log "libreoffice.sh completed"

@@ -1,18 +1,15 @@
-#!/bin/env bash
+#!/bin/bash
 
-set -euo pipefail
+source "$(dirname "$0")/../commands/logging.sh"
 
-export DEBIAN_FRONTEND=noninteractive
+log "pyenv.sh running"
 
-sudo apt update -y
+if [ -d "$HOME/.pyenv" ]; then
+    log "Pyenv already installed, skipping"
+    exit 0
+fi
 
-sudo apt install -y make build-essential libssl-dev zlib1g-dev \
-libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev \
-libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python3-openssl \
-git
+log "Installing pyenv"
+curl https://pyenv.run | bash
 
-if [ ! -d "$HOME/.pyenv" ]; then
-    curl https://pyenv.run | bash
-fi 
-
-
+log "pyenv.sh completed"

@@ -1,7 +1,17 @@
 #!/bin/bash
 
-set -e
+source "$(dirname "$0")/../commands/logging.sh"
 
-export DEBIAN_FRONTEND=noninteractive
+log "brave.sh running"
 
-curl -fsS https://dl.brave.com/install.sh | sh
+if dpkg -s brave-browser >/dev/null 2>&1; then
+    log "Brave already installed, skipping"
+    exit 0
+fi
+
+log "Installing Brave Browser"
+sudo apt update >/dev/null 2>&1
+sudo apt install -y -qq curl >/dev/null 2>&1
+curl -fsS https://dl.brave.com/install.sh | bash
+
+log "brave.sh completed"

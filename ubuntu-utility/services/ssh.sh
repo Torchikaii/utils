@@ -1,13 +1,17 @@
 #!/bin/bash
 
-set -e
+source "$(dirname "$0")/../commands/logging.sh"
 
-export DEBIAN_FRONTEND=noninteractive
+log "ssh.sh running"
 
-echo "ssh.sh running..."
+if dpkg -s openssh-server >/dev/null 2>&1; then
+    log "OpenSSH server already installed, skipping"
+    exit 0
+fi
 
-sudo apt update -y
-sudo apt install -y openssh-server > /dev/null 2>&1
-sudo systemctl start ssh > /dev/null 2>&1
-sudo systemctl enable ssh > /dev/null 2>&1
+log "Installing openssh-server"
+sudo apt update >/dev/null 2>&1
+sudo apt install -y -qq openssh-server >/dev/null 2>&1
+sudo systemctl enable ssh --now
 
+log "ssh.sh completed"
