@@ -1,59 +1,135 @@
-# Product Requirements Document: Utils Repo Improvement
+# Product Requirements Document: Utils Monorepo
+
+**Version:** 1.0  
+**Last Updated:** 2026-03-25
+
+---
 
 ## 1. Executive Summary
 
-This document outlines the improvements needed for the `/utils` repository - a personal toolbox containing context engineering files, Ubuntu workstation setup scripts, and various utilities. The core value proposition is a "throw laptop into sea and run main.sh" idempotent recovery system. The MVP goal is to complete context engineering templates, standardize ubuntu-utility output, add installation pre-checks, and improve documentation.
+This repository serves as a personal utility toolkit ("utils"), consolidating small but essential scripts and configurations that support daily development workflows. Rather than maintaining numerous separate repositories for small utilities, this monorepo approach keeps related tools organized, version-controlled, and easily deployable across systems.
+
+The project addresses the practical reality that developers accumulate small scripts, configurations, and tools over time. By centralizing these utilities, the repository enables quick environment reconstruction, workflow automation, and knowledge preservation.
+
+**Core Value Proposition:** One repository to rule all personal utilities — portable, maintainable, and ready to deploy anywhere.
+
+**MVP Goal:** Provide a curated collection of utilities that reduce friction in daily development tasks, from workstation setup to BOM management to structured AI-assisted development.
+
+---
 
 ## 2. Mission & Principles
 
-**Mission:** Create a self-documenting, robust utilities repository that enables instant workstation recovery with minimal human intervention.
+### Mission Statement
 
-**Core Principles:**
-- Idempotency: All scripts safe to re-run
-- Minimalism: Only display essential progress/error messages
-- Fail Fast: Check preconditions before operations, show detailed errors when they occur
-- Self-Documenting: Consistent patterns and README files for every substantial subfolder
+Build and maintain a personal utility ecosystem that eliminates repetitive tasks, preserves institutional knowledge, and enables instant environment recreation across machines.
+
+### Core Principles
+
+1. **Simplicity First** — Each utility should do one thing well. Avoid over-engineering small tools.
+2. **Portability** — Utilities must work across different environments (Linux, Windows via scripts, etc.)
+3. **Idempotency** — Scripts must be safe to re-run. No duplicate entries, no errors on re-execution.
+4. **Self-Contained** — Minimal external dependencies. Prefer standard library tools where possible.
+5. **Documentation by Default** — Every utility includes README explaining purpose, usage, and dependencies.
+
+---
 
 ## 3. Target Users
 
-**Primary User:** Single-user personal setup (the repository owner)
-**Technical Comfort Level:** High - comfortable with CLI, bash scripting, and system administration
-**Key Pain Points:**
-- Loss of workstation requires manual reinstall of ~20 apps
-- Inconsistent script output makes automation monitoring difficult
-- Missing documentation makes future modifications time-consuming
-- Verbose apt output hides actual progress
+### Primary User
+
+**The Solo Developer / Power User**
+- Develops firmware/PCB using Altium Designer
+- Uses Ubuntu as primary workstation
+- Leverages AI tools (OpenCode) for development assistance
+- Maintains Windows environment for specific tasks
+
+### Technical Comfort Level
+
+- Comfortable with command line
+- Familiar with shell scripting (bash)
+- Basic Python knowledge for BOM utilities
+- Understands symlinks and dotfile management
+
+### Problems Solved
+
+| Problem | Utility |
+|---------|---------|
+| Time-consuming fresh Ubuntu setup | `ubuntu-utility/` |
+| Repetitive BOM column modifications | `BOM-reconstructor/` |
+| Slow NAS navigation | `cd-NAS/` |
+| Inconsistent AI development workflows | `context-engineering/` |
+| Scattered documentation | `docs/` |
+
+---
 
 ## 4. Scope
 
-### In Scope (MVP) — ✅
+### In Scope (MVP) ✅
 
-- [ ] Standardized timestamped echo messages across all ubuntu-utility scripts
-- [ ] Installation pre-checks (skip if already installed) for all apps
-- [ ] Create missing context-engineering command templates (PRP, ADR, SPEC)
-- [ ] Add subfolder README.md files for context-engineering and docs
-- [ ] Update all existing scripts to use new patterns
+- [ ] **ubuntu-utility** — Automated Ubuntu workstation setup
+  - Shell scripts for app installation (docker, terraform, brave, vim, etc.)
+  - Keyboard layout configuration
+  - Dotfile symlinking (bash, vim, alacritty)
+  - Network storage mounting (cifs, nfs)
+  - Safe to re-run idempotent execution
 
-### Out of Scope — ❌
+- [ ] **BOM-reconstructor** — Altium BOM file processing
+  - Python scripts for Excel manipulation
+  - Column addition/removal
+  - CSV consolidation from multiple files
+  - Works with Altium default export format
 
-- Adding new apps to ubuntu-utility (future phase)
-- Creating a global .opencode/commands structure (not needed)
-- Migrating to alternative package managers
-- Cross-platform support (Windows, macOS)
+- [ ] **cd-NAS** — Quick NAS access
+  - Windows CMD script (`repos.bat`)
+  - PowerShell script (`repos.ps1`)
+  - Auto-login and directory change
+
+- [ ] **context-engineering** — OpenCode workflow templates
+  - PRD generation command
+  - Agent rules templates
+  - Progress tracking system
+  - Feature planning templates
+
+- [ ] **docs** — Reference documentation
+  - Git credential management
+  - How-to guides
+
+### Out of Scope ❌
+
+- [ ] GUI applications (CLI-first approach)
+- [ ] Cross-platform abstraction layers
+
+---
 
 ## 5. User Stories
 
-1. **"As a** user **I want** all scripts to output consistent timestamped messages **so that** I can easily parse logs and understand what's happening."
+### Ubuntu Setup
 
-2. **"As a** user **I want** scripts to check if apps are installed before attempting installation **so that** re-running main.sh completes quickly without unnecessary operations."
+**US-001:** As a developer, I want to run one script to set up a fresh Ubuntu machine, so I can be productive within minutes instead of hours of manual configuration.
 
-3. **"As a** user **I want** context-engineering to have multiple command templates **so that** I can generate different artifact types for my projects."
+**US-002:** As a developer, I want my dotfiles symlinked from a repository, so changes to configuration are automatically shared across machines.
 
-4. **"As a** user **I want** each substantial subfolder to have its own README.md **so that** I can understand what each folder does at a glance.**
+**US-003:** As a developer, I want keyboard shortcuts configured automatically, so I don't have to reconfigure after each Ubuntu reinstall.
 
-5. **"As a** user **I want** scripts to show detailed error messages on failure **so that** I can quickly diagnose what went wrong.**
+**US-004:** As a developer, I want to mount NAS storage with a single command, so I can access my files without manual network configuration.
 
-6. **"As a** user **I want** ubuntu-utility to run silently during normal operation **so that** I only see important progress messages.**
+### BOM Processing
+
+**US-005:** As an electronics engineer, I want to modify BOM columns from Altium exports, so I can prepare files for different manufacturing requirements.
+
+**US-006:** As an electronics engineer, I want to consolidate multiple BOM files, so I can compare revisions or merge component lists.
+
+### Development Workflow
+
+**US-007:** As an AI-augmented developer, I want structured planning commands, so I can break complex features into manageable phases.
+
+**US-008:** As an AI-augmented developer, I want progress tracking, so I can see what remains in each development phase.
+
+### Cross-Platform
+
+**US-009:** As a developer using both Windows and Linux, I want platform-specific utilities in one repo, so I don't forget where my tools are located.
+
+---
 
 ## 6. Architecture & Design
 
@@ -61,123 +137,190 @@ This document outlines the improvements needed for the `/utils` repository - a p
 
 ```
 utils/
-├── .opencode/
-│   └── commands/                    # Global commands (empty, uses context-engineering)
-├── context-engineering/
-│   └── .opencode/
-│       └── commands/
-│           ├── create-prd.md       # Existing
-│           ├── create-prp.md       # New - Product Requirements Presentation
-│           ├── create-spec.md      # New - Technical Specification
-│           └── create-adr.md       # New - Architecture Decision Record
-│   └── README.md                   # New - Subfolder documentation
-├── ubuntu-utility/
-│   ├── commands/
-│   │   └── utils.sh                 # New - Shared logging functions
-│   ├── apps/                        # All *.sh files updated
-│   ├── services/                    # All *.sh files updated
-│   ├── dotfiles.sh                  # Updated
-│   ├── keyboard.sh                  # Updated
-│   └── main.sh                      # Updated
-├── docs/
-│   └── README.md                    # New - Subfolder documentation
-├── README.md                        # Existing - keep concise
-├── BOM-reconstructor/
-│   └── README.md                    # Existing
-├── cd-NAS/
-│   └── README.md                    # Existing
+├── .opencode/           # AI development workflow templates
+│   ├── commands/        # Slash commands for OpenCode
+│   ├── progress/        # Human-tracked task completion
+│   └── plans/           # Feature implementation plans
+├── BOM-reconstructor/   # BOM processing utilities
+│   ├── consolidate_bom.py
+│   └── consolidate_bom_excel.py
+├── cd-NAS/             # NAS quick-access scripts
+│   ├── repos.bat        # Windows CMD
+│   └── repos.ps1        # Windows PowerShell
+├── context-engineering/ # OpenCode templates
+│   └── .opencode/       # Copy-to-project templates
+├── docs/               # Documentation
+├── ubuntu-utility/     # Ubuntu setup scripts
+│   ├── main.sh          # Master orchestration script
+│   ├── apps/            # Individual app installers
+│   ├── services/        # Service configurations
+│   ├── commands/        # Utility commands
+│   └── dotfiles/        # Config files (symlink targets)
+└── README.md           # Repository entry point
 ```
 
-### Key Design Patterns
+### Design Patterns
 
-1. **Logging Function:** Single source of truth in `commands/utils.sh` with:
-   - `log_info "message"` - timestamped info messages
-   - `log_error "message"` - detailed error with exit code
-   - `log_success "message"` - completion messages
+| Pattern | Application |
+|---------|-------------|
+| **Facade** | `main.sh` orchestrates all sub-scripts |
+| **Single Responsibility** | Each `.sh` file handles one app/service |
+| **Template Method** | Context engineering commands follow consistent structure |
+| **Idempotent Scripts** | All scripts check state before modifying |
 
-2. **Installation Check Pattern:**
-   ```bash
-   if command -v <binary> >/dev/null 2>&1 || dpkg -s <package> >/dev/null 2>&1; then
-       log_info "<app> already installed, skipping"
-       return 0
-   fi
-   ```
-
-3. **Echo Format:**
-   - `[YYYY-MM-DD HH:MM:SS] <script-name> running`
-   - `[YYYY-MM-DD HH:MM:SS] Installing <app>...`
-   - `[YYYY-MM-DD HH:MM:SS] <script-name> completed`
+---
 
 ## 7. Technology Stack
 
-- **Shell:** Bash (POSIX compliant)
-- **Tools:** coreutils (date, grep, awk), apt, dpkg, systemctl, dconf
-- **No external dependencies** for scripts (self-contained)
+### Shell Scripts
+- **Bash** — Primary scripting language for Ubuntu
+- **DASH** — POSIX-compliant shell compatibility
+- **Dconf/GSettings** — GNOME configuration management
+
+### Python
+- **Python 3.x** — BOM processing
+- **openpyxl** — Excel file manipulation
+- **pandas** — Data processing (optional enhancement)
+
+### Platform-Specific
+- **CMD/PowerShell** — Windows NAS scripts
+- **GitHub Actions** — CI/CD workflows
+
+### Development Tools
+- **OpenCode** — AI development assistant
+- **Zod** — Schema validation for context engineering
+
+---
 
 ## 8. Security & Configuration
 
-- Scripts use `sudo` for system modifications (required for apt installs)
-- No secrets stored in repository
-- Scripts are idempotent (safe to re-run)
-- CI detection via `CI` env var to skip hardware-specific operations
+### Authentication
 
-## 9. Success Criteria
+| Utility | Method |
+|---------|--------|
+| NAS Mounting | Stored credentials (cifs-utils) |
+| Git | SSH keys / credential helpers |
+| General | No sensitive data in repo |
 
-- [ ] All ubuntu-utility/*.sh scripts use consistent timestamped logging
-- [ ] All app installation scripts check if app is already installed
-- [ ] context-engineering has at least 3 command templates (PRD, PRP, ADR or SPEC)
-- [ ] context-engineering/ and docs/ each have README.md files
-- [ ] Re-running main.sh completes in <30 seconds when all apps installed
-- [ ] Error messages include file path, error code, and context
+### Configuration Management
 
-## 10. Implementation Phases
+- **Dotfiles** stored in `ubuntu-utility/dotfiles/`
+- **Symlinks** created to `~/.config`
+- **No hardcoded paths** — uses `~/repos/utils` convention
 
-### Phase 1: Foundation
-- [ ] Create `ubuntu-utility/commands/utils.sh` with logging functions
-- [ ] Test logging functions work correctly
-- [ ] **Deliverables:** `commands/utils.sh` with `log_info`, `log_error`, `log_success`
+### Security Scope
 
-### Phase 2: Core Scripts Update
-- [ ] Update `main.sh` to include logging header/footer
-- [ ] Update `dotfiles.sh` with new logging and install checks
-- [ ] Update `keyboard.sh` with new logging (keep CI detection)
-- [ ] **Deliverables:** Core scripts using new patterns
+- No production secrets stored
+- No API keys or tokens in repository
+- `.gitignore` excludes sensitive files
+- Credentials handled by system keyring (future enhancement)
 
-### Phase 3: App Scripts
-- [ ] Update all `apps/*.sh` with install checks and logging
-- [ ] Update all `services/*.sh` with install checks and logging
-- [ ] **Deliverables:** All app/service scripts updated
+---
 
-### Phase 4: Context Engineering
-- [ ] Create `create-prp.md` template
-- [ ] Create `create-spec.md` template  
-- [ ] Create `create-adr.md` template
-- [ ] **Deliverables:** 3 new command templates
+## 9. API Specification
 
-### Phase 5: Documentation
-- [ ] Create `context-engineering/README.md`
-- [ ] Create `docs/README.md`
-- [ ] Review and update root `README.md` if needed
-- [ ] **Deliverables:** Subfolder READMEs complete
+Not applicable — this is a collection of standalone utilities, not an API-driven service.
 
-### Phase 6: Validation
-- [ ] Run `main.sh` on fresh Ubuntu (or VM)
-- [ ] Verify idempotency (re-run main.sh)
-- [ ] Verify log output format matches requirements
-- [ ] **Deliverables:** All tests pass
+---
 
-## 11. Risks & Mitigations
+## 10. Success Criteria
 
-| Risk | Impact | Mitigation |
-|------|--------|------------|
-| Breaking existing scripts | High | Test each script individually before running full main.sh |
-| Installation check false positives | Medium | Use multiple check methods (command -v AND dpkg -s) |
-| Timestamps cause issues | Low | Use ISO format, strip colons if needed for specific tools |
-| brave.sh installer changes | Medium | Check brave.sh works, may need update to install method |
+### Functional Acceptance Criteria ✅
 
-## 12. Future Considerations
+- [ ] `ubuntu-utility/main.sh` executes without errors on fresh Ubuntu 22.04+
+- [ ] All app installers create working installations
+- [ ] Dotfile symlinks resolve correctly
+- [ ] BOM Python scripts produce valid Excel output
+- [ ] NAS scripts connect to configured server
+- [ ] OpenCode commands load correct templates
 
-- Add support for more Linux distributions (Debian, Fedora)
-- Create homebrew-based install option for macOS
-- Add configuration file for customizable app selection
-- Add support for dotfile repository URL as parameter
+### Quality Indicators
+
+| Metric | Target |
+|--------|--------|
+| Scripts re-run safely | 100% idempotent |
+| README coverage | All utilities documented |
+| Cross-session context | OpenCode templates functional |
+| Setup time (Ubuntu) | < 30 minutes automated |
+
+---
+
+## 11. Implementation Phases
+
+### Phase 1: Foundation ✅
+**Goal:** Establish core infrastructure
+
+- [x] Repository structure created
+- [x] Basic ubuntu-utility scripts implemented
+- [x] README documentation written
+- [x] Git ignore configured
+
+**Validation:** Can clone repo and run `main.sh` on fresh Ubuntu  
+**Timeline:** Completed
+
+### Phase 2: Utility Expansion ✅
+**Goal:** Add missing utilities
+
+- [x] BOM-reconstructor Python scripts added
+- [x] cd-NAS Windows scripts added
+- [x] context-engineering templates created
+- [x] docs folder populated
+
+**Validation:** Each utility works independently  
+**Timeline:** Completed
+
+### Phase 3: Workflow Integration (Current)
+**Goal:** Enhance AI-assisted development
+
+- [x] OpenCode command templates implemented
+- [x] PRD generation workflow created
+- [ ] Agent rules template refined
+- [ ] Progress tracking system operational
+
+**Validation:** Can run full `/create-prd` → `/execute` workflow  
+**Timeline:** In progress
+
+### Phase 4: Polish & Portability
+**Goal:** Improve maintainability
+
+- [ ] Add input validation to all scripts
+- [ ] Create Windows WSL compatibility layer
+- [ ] Add installation script for cd-NAS
+- [ ] Document all command-line arguments
+
+**Validation:** All scripts have `--help` or usage info  
+**Timeline:** Future
+
+---
+
+## 12. Risks & Mitigations
+
+| Risk | Impact | Likelihood | Mitigation |
+|------|--------|------------|------------|
+| **Path dependencies** — Scripts assume `~/repos/utils` | Medium | High | Document path requirement; add path detection |
+| **Ubuntu version drift** — APIs change between releases | Medium | Medium | Test on LTS releases; use version checks |
+| **BOM format changes** — Altium export format varies | Low | Medium | Add format detection; version comments |
+| **Context engineering template bloat** — Over-engineering | Low | Medium | Keep templates minimal; iterate based on need |
+| **Windows script neglect** — Scripts not tested regularly | Low | High | Add periodic testing; document requirements |
+
+---
+
+## 13. Future Considerations
+
+### Post-MVP Enhancements
+
+- **Windows Subsystem for Linux (WSL) support** — Unified scripts across Windows/Linux
+- **Homebrew/Linuxbrew compatibility** — Package management abstraction
+- **Docker containerization** — Portable development environments
+- **Ansible/Terraform integration** — Infrastructure-as-code for workstation
+- **Dotfiles manager integration** — Consider chezmoi or GNU Stow
+
+### Integration Opportunities
+
+- **GitHub Codespaces** — Cloud development environment
+- **VS Code Remote** — Remote development support
+- **Tailscale/Headscale** — Secure remote access to NAS
+
+### Long-Term Vision
+
+When any single utility outgrows the monorepo, it can be extracted into its own repository while maintaining the development workflow established here. The context-engineering system is designed to be portable — copy `.opencode/` to any project for consistent AI-assisted development.
