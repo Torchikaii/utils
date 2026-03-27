@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/bin/env bash
+set -e
 
 source "$(dirname "$0")/../commands/logging.sh"
 
