@@ -12,6 +12,7 @@ bash ./ubuntu-utility/apps/keepassxc.sh
 bash ./ubuntu-utility/apps/libreoffice.sh
 bash ./ubuntu-utility/apps/p7zip.sh
 bash ./ubuntu-utility/apps/git.sh
+bash ./ubuntu-utility/apps/gh.sh
 bash ./ubuntu-utility/apps/vim.sh
 bash ./ubuntu-utility/apps/tree.sh
 bash ./ubuntu-utility/apps/pyenv.sh
