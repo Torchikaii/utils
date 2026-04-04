@@ -106,9 +106,7 @@ alias path='echo $PATH | tr ":" "\n"'
 alias clear-path='export PATH=$(echo "$PATH" | tr ":" "\n" | awk "!seen[$0]++" | tr "\n" ":" | sed "s/:$//")'
 
 # Logging function
-log() {
-    echo "[$(date '+%Y-%m-%d %H:%M:%S')] $*"
-}
+source ~/repos/utils/ubuntu-utility/commands/logging.sh
 
 # Bash prompt
 RESET="\[\e[0m\]"
