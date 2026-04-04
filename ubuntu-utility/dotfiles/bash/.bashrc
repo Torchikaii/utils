@@ -105,8 +105,6 @@ alias notes='cd ~/repos/Notes'
 alias path='echo $PATH | tr ":" "\n"'
 alias clear-path='export PATH=$(echo "$PATH" | tr ":" "\n" | awk "!seen[$0]++" | tr "\n" ":" | sed "s/:$//")'
 
-# Logging function
-source ~/repos/utils/ubuntu-utility/commands/logging.sh
 
 # Bash prompt
 RESET="\[\e[0m\]"
